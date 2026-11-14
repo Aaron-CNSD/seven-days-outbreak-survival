@@ -1,0 +1,1012 @@
+{
+  "importSettings": {
+    "defaultSceneIndex": 0,
+    "diagnostics": {
+      "matrixTrsCoexistNodes": [],
+      "nodeNames": [
+        "BoneTwist_01.L_end",
+        "BoneTwist_01.L",
+        "BoneTwist_02.L",
+        "BoneTwist_03.L",
+        "Forearm_L",
+        "UpArm_L",
+        "Arm_L",
+        "BoneTwist_01.R_end",
+        "BoneTwist_01.R",
+        "BoneTwist_02.R",
+        "BoneTwist_03.R",
+        "Forearm_R",
+        "UpArm_R",
+        "Arm_R",
+        "Bone_L.007_end",
+        "Bone_L.007",
+        "Bone_L.006",
+        "Bone_L.005",
+        "Bone_L.004",
+        "Bone_L.011_end",
+        "Bone_L.011",
+        "Bone_L.010",
+        "Bone_L.009",
+        "Bone_L.008",
+        "Bone_L.015_end",
+        "Bone_L.015",
+        "Bone_L.014",
+        "Bone_L.013",
+        "Bone_L.012",
+        "Bone_L.019_end",
+        "Bone_L.019",
+        "Bone_L.018",
+        "Bone_L.017",
+        "Bone_L.016",
+        "Bone_L.022_end",
+        "Bone_L.022",
+        "Bone_L.021",
+        "Bone_L.020",
+        "Hand_L",
+        "IK_Hand_Cntrl_L",
+        "Bone_R.007_end",
+        "Bone_R.007",
+        "Bone_R.006",
+        "Bone_R.005",
+        "Bone_R.004",
+        "Bone_R.011_end",
+        "Bone_R.011",
+        "Bone_R.010",
+        "Bone_R.009",
+        "Bone_R.008",
+        "Bone_R.015_end",
+        "Bone_R.015",
+        "Bone_R.014",
+        "Bone_R.013",
+        "Bone_R.012",
+        "Bone_R.019_end",
+        "Bone_R.019",
+        "Bone_R.018",
+        "Bone_R.017",
+        "Bone_R.016",
+        "Bone_R.022_end",
+        "Bone_R.022",
+        "Bone_R.021",
+        "Bone_R.020",
+        "Hand_R",
+        "IK_Hand_Cntrl_R",
+        "Root",
+        "_rootJoint",
+        "FPArms",
+        "FPRig",
+        "GripL",
+        "GripR",
+        "BoltHardwareGeometry",
+        "ChargingHandleGeometry",
+        "ChargingHandle",
+        "EjectionPort",
+        "Foregrip",
+        "FrontIronGeometry",
+        "FrontIronSight",
+        "FurnitureGeometry",
+        "MagazineGeometry",
+        "MagazineGrip",
+        "Magazine",
+        "MuzzleDeviceTip",
+        "MuzzleDevice",
+        "OpticReticleAnchor",
+        "OpticMount",
+        "OpticRailAdapterGeometry",
+        "OpticRailContact",
+        "RearIronGeometry",
+        "RearIronSight",
+        "ReceiverGeometry",
+        "SpareMagazineGeometry",
+        "SpareMagazineGrip",
+        "SpareMagazine",
+        "StockButtpadGeometry",
+        "StockWoodGeometry",
+        "Stock",
+        "SuppressorTip",
+        "Suppressor",
+        "WeaponBodyGeometry",
+        "SteelTideAK47",
+        "Gun_ak47",
+        "VGripMount",
+        "FP_ak47"
+      ],
+      "unsupportedExtensions": []
+    }
+  },
+  "importer": "gltf",
+  "kind": "external-asset-package",
+  "schemaVersion": 1,
+  "source": "ak47.glb",
+  "sourceOverrideDescriptors": [
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:FPArms_0"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:BoltHardwareGeometryMesh_1"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:ChargingHandleGeometryMesh_2"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:FrontIronMesh_3"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:FurnitureGeometryMesh_4"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:MagazineMesh.001_5"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:OpticRailAdapterMesh_6"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:RearIronGeometryMesh_7"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:ReceiverGeometryMesh_8"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:MagazineMesh_9"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:StockButtpadMesh_10"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:StockWoodMesh_11"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:WeaponBodyGeometryMesh_12"
+    }
+  ],
+  "sourceOverrides": {
+    "mesh:BoltHardwareGeometryMesh_1": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a039ba6c21a",
+          "slotName": "AK47WornBoltSteel_1",
+          "sourceKey": "material:AK47WornBoltSteel_1"
+        }
+      ]
+    },
+    "mesh:ChargingHandleGeometryMesh_2": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a039ba6c21a",
+          "slotName": "AK47WornBoltSteel_1",
+          "sourceKey": "material:AK47WornBoltSteel_1"
+        }
+      ]
+    },
+    "mesh:FPArms_0": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a0253ac39c9",
+          "slotName": "arms_0",
+          "sourceKey": "material:arms_0"
+        }
+      ]
+    },
+    "mesh:FrontIronMesh_3": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a041e54bbc2",
+          "slotName": "AK47PhosphateSteel_2",
+          "sourceKey": "material:AK47PhosphateSteel_2"
+        }
+      ]
+    },
+    "mesh:FurnitureGeometryMesh_4": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a056f35e890",
+          "slotName": "AK47LaminatedWoodPBR_3",
+          "sourceKey": "material:AK47LaminatedWoodPBR_3"
+        }
+      ]
+    },
+    "mesh:MagazineMesh.001_5": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a062a801509",
+          "slotName": "AK47BakeliteMagazine_4",
+          "sourceKey": "material:AK47BakeliteMagazine_4"
+        }
+      ]
+    },
+    "mesh:MagazineMesh_9": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a062a801509",
+          "slotName": "AK47BakeliteMagazine_4",
+          "sourceKey": "material:AK47BakeliteMagazine_4"
+        }
+      ]
+    },
+    "mesh:OpticRailAdapterMesh_6": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a041e54bbc2",
+          "slotName": "AK47PhosphateSteel_2",
+          "sourceKey": "material:AK47PhosphateSteel_2"
+        }
+      ]
+    },
+    "mesh:RearIronGeometryMesh_7": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a041e54bbc2",
+          "slotName": "AK47PhosphateSteel_2",
+          "sourceKey": "material:AK47PhosphateSteel_2"
+        }
+      ]
+    },
+    "mesh:ReceiverGeometryMesh_8": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a07fa5f0b6b",
+          "slotName": "AK47BluedReceiverSteel_5",
+          "sourceKey": "material:AK47BluedReceiverSteel_5"
+        }
+      ]
+    },
+    "mesh:StockButtpadMesh_10": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a082d89a89f",
+          "slotName": "AK47ButtpadRubber_6",
+          "sourceKey": "material:AK47ButtpadRubber_6"
+        }
+      ]
+    },
+    "mesh:StockWoodMesh_11": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a056f35e890",
+          "slotName": "AK47LaminatedWoodPBR_3",
+          "sourceKey": "material:AK47LaminatedWoodPBR_3"
+        }
+      ]
+    },
+    "mesh:WeaponBodyGeometryMesh_12": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-365b-718f-a048-8a09c269ed09",
+          "slotName": "AK47PhosphateSteel_7",
+          "sourceKey": "material:AK47PhosphateSteel_7"
+        }
+      ]
+    }
+  },
+  "subAssets": [
+    {
+      "guid": "01a1bb0e-365b-718f-a048-89f5232c7d9e",
+      "kind": "mesh",
+      "name": "FPArms_0",
+      "sourceIndex": 0,
+      "sourceKey": "mesh:FPArms_0"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-89f63f6a642b",
+      "kind": "mesh",
+      "name": "BoltHardwareGeometryMesh_1",
+      "sourceIndex": 1,
+      "sourceKey": "mesh:BoltHardwareGeometryMesh_1"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-89f72b82441a",
+      "kind": "mesh",
+      "name": "ChargingHandleGeometryMesh_2",
+      "sourceIndex": 2,
+      "sourceKey": "mesh:ChargingHandleGeometryMesh_2"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-89f89542223d",
+      "kind": "mesh",
+      "name": "FrontIronMesh_3",
+      "sourceIndex": 3,
+      "sourceKey": "mesh:FrontIronMesh_3"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-89f907f566de",
+      "kind": "mesh",
+      "name": "FurnitureGeometryMesh_4",
+      "sourceIndex": 4,
+      "sourceKey": "mesh:FurnitureGeometryMesh_4"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-89fa2044caab",
+      "kind": "mesh",
+      "name": "MagazineMesh.001_5",
+      "sourceIndex": 5,
+      "sourceKey": "mesh:MagazineMesh.001_5"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-89fb57f63fd9",
+      "kind": "mesh",
+      "name": "OpticRailAdapterMesh_6",
+      "sourceIndex": 6,
+      "sourceKey": "mesh:OpticRailAdapterMesh_6"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-89fc0c662dca",
+      "kind": "mesh",
+      "name": "RearIronGeometryMesh_7",
+      "sourceIndex": 7,
+      "sourceKey": "mesh:RearIronGeometryMesh_7"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-89fd3cce0c4c",
+      "kind": "mesh",
+      "name": "ReceiverGeometryMesh_8",
+      "sourceIndex": 8,
+      "sourceKey": "mesh:ReceiverGeometryMesh_8"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-89fe499dbd2b",
+      "kind": "mesh",
+      "name": "MagazineMesh_9",
+      "sourceIndex": 9,
+      "sourceKey": "mesh:MagazineMesh_9"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-89ff2b60b862",
+      "kind": "mesh",
+      "name": "StockButtpadMesh_10",
+      "sourceIndex": 10,
+      "sourceKey": "mesh:StockButtpadMesh_10"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a00984054cb",
+      "kind": "mesh",
+      "name": "StockWoodMesh_11",
+      "sourceIndex": 11,
+      "sourceKey": "mesh:StockWoodMesh_11"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a01b9862d4a",
+      "kind": "mesh",
+      "name": "WeaponBodyGeometryMesh_12",
+      "sourceIndex": 12,
+      "sourceKey": "mesh:WeaponBodyGeometryMesh_12"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a0253ac39c9",
+      "kind": "material",
+      "name": "arms_0",
+      "sourceIndex": 0,
+      "sourceKey": "material:arms_0"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a039ba6c21a",
+      "kind": "material",
+      "name": "AK47WornBoltSteel_1",
+      "sourceIndex": 1,
+      "sourceKey": "material:AK47WornBoltSteel_1"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a041e54bbc2",
+      "kind": "material",
+      "name": "AK47PhosphateSteel_2",
+      "sourceIndex": 2,
+      "sourceKey": "material:AK47PhosphateSteel_2"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a056f35e890",
+      "kind": "material",
+      "name": "AK47LaminatedWoodPBR_3",
+      "sourceIndex": 3,
+      "sourceKey": "material:AK47LaminatedWoodPBR_3"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a062a801509",
+      "kind": "material",
+      "name": "AK47BakeliteMagazine_4",
+      "sourceIndex": 4,
+      "sourceKey": "material:AK47BakeliteMagazine_4"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a07fa5f0b6b",
+      "kind": "material",
+      "name": "AK47BluedReceiverSteel_5",
+      "sourceIndex": 5,
+      "sourceKey": "material:AK47BluedReceiverSteel_5"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a082d89a89f",
+      "kind": "material",
+      "name": "AK47ButtpadRubber_6",
+      "sourceIndex": 6,
+      "sourceKey": "material:AK47ButtpadRubber_6"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a09c269ed09",
+      "kind": "material",
+      "name": "AK47PhosphateSteel_7",
+      "sourceIndex": 7,
+      "sourceKey": "material:AK47PhosphateSteel_7"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a0a566fe373",
+      "kind": "scene",
+      "name": "Scene",
+      "sourceIndex": 0,
+      "sourceKey": "scene:Scene"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a0be01fb79e",
+      "kind": "texture",
+      "name": "Image_2_0",
+      "sourceIndex": 0,
+      "sourceKey": "texture:Image_2_0"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a0cbe62a5e7",
+      "kind": "texture",
+      "name": "AO-Image_1_1",
+      "sourceIndex": 1,
+      "sourceKey": "texture:AO-Image_1_1"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a0d14c0e32f",
+      "kind": "texture",
+      "name": "Image_0_2",
+      "sourceIndex": 2,
+      "sourceKey": "texture:Image_0_2"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a0e6b184f10",
+      "kind": "texture",
+      "name": "AO-ak47_blued_metal_roughness_3",
+      "sourceIndex": 3,
+      "sourceKey": "texture:AO-ak47_blued_metal_roughness_3"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a0f8df87e55",
+      "kind": "texture",
+      "name": "ak47_blued_metal_base_color_4",
+      "sourceIndex": 4,
+      "sourceKey": "texture:ak47_blued_metal_base_color_4"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a108411d456",
+      "kind": "texture",
+      "name": "AO-ak47_laminated_wood_roughness_5",
+      "sourceIndex": 5,
+      "sourceKey": "texture:AO-ak47_laminated_wood_roughness_5"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a1198511b3b",
+      "kind": "texture",
+      "name": "ak47_laminated_wood_base_color_6",
+      "sourceIndex": 6,
+      "sourceKey": "texture:ak47_laminated_wood_base_color_6"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a12e03535f1",
+      "kind": "texture",
+      "name": "AO-ak47_bakelite_polymer_roughness_7",
+      "sourceIndex": 7,
+      "sourceKey": "texture:AO-ak47_bakelite_polymer_roughness_7"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a13ba4f44fe",
+      "kind": "texture",
+      "name": "ak47_bakelite_polymer_base_color_8",
+      "sourceIndex": 8,
+      "sourceKey": "texture:ak47_bakelite_polymer_base_color_8"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a14e747f98a",
+      "kind": "texture",
+      "name": "rig_ak47_ao_9",
+      "sourceIndex": 9,
+      "sourceKey": "texture:rig_ak47_ao_9"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a15031c4115",
+      "kind": "sampler",
+      "sourceIndex": 0,
+      "sourceKey": "sampler"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a16965c5248",
+      "kind": "skeleton",
+      "sourceIndex": 0,
+      "sourceKey": "skeleton"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a172b7be5d3",
+      "kind": "skin",
+      "sourceIndex": 0,
+      "sourceKey": "skin"
+    },
+    {
+      "guid": "01a1bb0e-365b-718f-a048-8a18223cda80",
+      "kind": "animation-clip",
+      "name": "grip_vgrip_0",
+      "sourceIndex": 0,
+      "sourceKey": "animation-clip:grip_vgrip_0"
+    }
+  ]
+}

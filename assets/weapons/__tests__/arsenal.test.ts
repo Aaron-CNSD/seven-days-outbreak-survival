@@ -1,0 +1,5 @@
+import {expect,it} from 'vitest';
+import {Arsenal} from '../config.ts';
+it('keeps independent magazines when switching and cancels an unfinished reload',()=>{const a=new Arsenal();expect(a.fire()).toBe(true);expect(a.ammo[0]).toBe(29);a.reload();a.tick(1);a.select(1);expect(a.reloadRemaining).toBe(0);expect(a.ammo).toEqual([29,5,17,30,30,30,8,1]);a.select(0);expect(a.ammo[0]).toBe(29);});
+it('reload moves finite reserve ammo exactly once and blocks shots until complete',()=>{const a=new Arsenal();a.ammo[0]=0;a.reserve[0]=9;expect(a.reload()).toBe(true);expect(a.fire()).toBe(false);a.tick(2.2);expect(a.ammo[0]).toBe(0);a.tick(.2);expect(a.ammo[0]).toBe(9);expect(a.reserve[0]).toBe(0);a.tick(10);expect(a.ammo[0]).toBe(9);});
+it('enforces AWM bolt interval and rejects out-of-range weapon indices',()=>{const a=new Arsenal();a.select(1);a.tick(.3);expect(a.fire()).toBe(true);a.tick(1);expect(a.fire()).toBe(false);a.tick(.51);expect(a.fire()).toBe(true);a.select(100);expect(a.selected).toBe(1);});

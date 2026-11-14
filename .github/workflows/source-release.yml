@@ -1,0 +1,44 @@
+name: 发布源码
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: source-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出版本源码
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: 创建源码 ZIP 和 Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="$GITHUB_REF_NAME"
+          if [[ ! "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "使用 v0.1.0 或 v0.1.0-beta.1 格式的标签。"
+            exit 1
+          fi
+          archive="seven-days-outbreak-survival-${tag}-source.zip"
+          git archive --format=zip --prefix="seven-days-outbreak-survival-${tag}/" --output="$archive" HEAD
+          unzip -tq "$archive"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$tag" "$archive#完整源码 ZIP" --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            flags=()
+            if [[ "$tag" == *-* ]]; then flags+=(--prerelease); fi
+            gh release create "$tag" "$archive#完整源码 ZIP" --repo "$GITHUB_REPOSITORY" \
+              --verify-tag --title "七天惊变生存 $tag" --generate-notes "${flags[@]}"
+          fi

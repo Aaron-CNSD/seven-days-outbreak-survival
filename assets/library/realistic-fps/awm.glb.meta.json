@@ -1,0 +1,492 @@
+{
+  "importSettings": {
+    "defaultSceneIndex": 0,
+    "diagnostics": {
+      "matrixTrsCoexistNodes": [],
+      "nodeNames": [
+        "BoneTwist_01.L_end",
+        "BoneTwist_01.L",
+        "BoneTwist_02.L",
+        "BoneTwist_03.L",
+        "Forearm_L",
+        "UpArm_L",
+        "Arm_L",
+        "BoneTwist_01.R_end",
+        "BoneTwist_01.R",
+        "BoneTwist_02.R",
+        "BoneTwist_03.R",
+        "Forearm_R",
+        "UpArm_R",
+        "Arm_R",
+        "Bone_L.007_end",
+        "Bone_L.007",
+        "Bone_L.006",
+        "Bone_L.005",
+        "Bone_L.004",
+        "Bone_L.011_end",
+        "Bone_L.011",
+        "Bone_L.010",
+        "Bone_L.009",
+        "Bone_L.008",
+        "Bone_L.015_end",
+        "Bone_L.015",
+        "Bone_L.014",
+        "Bone_L.013",
+        "Bone_L.012",
+        "Bone_L.019_end",
+        "Bone_L.019",
+        "Bone_L.018",
+        "Bone_L.017",
+        "Bone_L.016",
+        "Bone_L.022_end",
+        "Bone_L.022",
+        "Bone_L.021",
+        "Bone_L.020",
+        "Hand_L",
+        "IK_Hand_Cntrl_L",
+        "Bone_R.007_end",
+        "Bone_R.007",
+        "Bone_R.006",
+        "Bone_R.005",
+        "Bone_R.004",
+        "Bone_R.011_end",
+        "Bone_R.011",
+        "Bone_R.010",
+        "Bone_R.009",
+        "Bone_R.008",
+        "Bone_R.015_end",
+        "Bone_R.015",
+        "Bone_R.014",
+        "Bone_R.013",
+        "Bone_R.012",
+        "Bone_R.019_end",
+        "Bone_R.019",
+        "Bone_R.018",
+        "Bone_R.017",
+        "Bone_R.016",
+        "Bone_R.022_end",
+        "Bone_R.022",
+        "Bone_R.021",
+        "Bone_R.020",
+        "Hand_R",
+        "IK_Hand_Cntrl_R",
+        "Root",
+        "_rootJoint",
+        "FPArms",
+        "FPRig",
+        "GripL",
+        "GripR",
+        "Body",
+        "ChargingHandleGeometry",
+        "ChargingHandle",
+        "EjectionPort",
+        "GlassGeometry",
+        "Glass",
+        "MagazineGeometry",
+        "MagazineGripSocket",
+        "Magazine",
+        "MuzzleSocket",
+        "Gun_awm",
+        "FP_awm"
+      ],
+      "unsupportedExtensions": []
+    }
+  },
+  "importer": "gltf",
+  "kind": "external-asset-package",
+  "schemaVersion": 1,
+  "source": "awm.glb",
+  "sourceOverrideDescriptors": [
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:FPArms_0"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:Body_1"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:ChargingHandleGeometry_2"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:GlassGeometry_3"
+    },
+    {
+      "payloadSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "materialSlotDefaultOverrides": {
+            "additionalProperties": {
+              "nullable": true,
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "materialSlots": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "defaultMaterialGuid": {
+                  "type": "string"
+                },
+                "slotName": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "sourceKey": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "slotName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "semantic": "mesh-material-slot-defaults",
+      "sourceKey": "mesh:MagazineGeometry_4"
+    }
+  ],
+  "sourceOverrides": {
+    "mesh:Body_1": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-41cc-7f84-a073-e7a403cdb72c",
+          "slotName": "lambert3_1",
+          "sourceKey": "material:lambert3_1"
+        },
+        {
+          "defaultMaterialGuid": "01a1bb0e-41cc-7f84-a073-e7a594612330",
+          "slotName": "lambert2_2",
+          "sourceKey": "material:lambert2_2"
+        }
+      ]
+    },
+    "mesh:ChargingHandleGeometry_2": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-41cc-7f84-a073-e7a403cdb72c",
+          "slotName": "lambert3_1",
+          "sourceKey": "material:lambert3_1"
+        }
+      ]
+    },
+    "mesh:FPArms_0": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-41cc-7f84-a073-e7a3504cc9de",
+          "slotName": "arms_0",
+          "sourceKey": "material:arms_0"
+        }
+      ]
+    },
+    "mesh:GlassGeometry_3": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-41cc-7f84-a073-e7a6b8b96e8c",
+          "slotName": "glass_lambert1_3",
+          "sourceKey": "material:glass_lambert1_3"
+        }
+      ]
+    },
+    "mesh:MagazineGeometry_4": {
+      "materialSlots": [
+        {
+          "defaultMaterialGuid": "01a1bb0e-41cc-7f84-a073-e7a403cdb72c",
+          "slotName": "lambert3_1",
+          "sourceKey": "material:lambert3_1"
+        }
+      ]
+    }
+  },
+  "subAssets": [
+    {
+      "guid": "01a1bb0e-41cb-755f-a469-525d58af65ea",
+      "kind": "mesh",
+      "name": "FPArms_0",
+      "sourceIndex": 0,
+      "sourceKey": "mesh:FPArms_0"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e79fc8387479",
+      "kind": "mesh",
+      "name": "Body_1",
+      "sourceIndex": 1,
+      "sourceKey": "mesh:Body_1"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7a060617d17",
+      "kind": "mesh",
+      "name": "ChargingHandleGeometry_2",
+      "sourceIndex": 2,
+      "sourceKey": "mesh:ChargingHandleGeometry_2"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7a1de4a7719",
+      "kind": "mesh",
+      "name": "GlassGeometry_3",
+      "sourceIndex": 3,
+      "sourceKey": "mesh:GlassGeometry_3"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7a27689861c",
+      "kind": "mesh",
+      "name": "MagazineGeometry_4",
+      "sourceIndex": 4,
+      "sourceKey": "mesh:MagazineGeometry_4"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7a3504cc9de",
+      "kind": "material",
+      "name": "arms_0",
+      "sourceIndex": 0,
+      "sourceKey": "material:arms_0"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7a403cdb72c",
+      "kind": "material",
+      "name": "lambert3_1",
+      "sourceIndex": 1,
+      "sourceKey": "material:lambert3_1"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7a594612330",
+      "kind": "material",
+      "name": "lambert2_2",
+      "sourceIndex": 2,
+      "sourceKey": "material:lambert2_2"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7a6b8b96e8c",
+      "kind": "material",
+      "name": "glass_lambert1_3",
+      "sourceIndex": 3,
+      "sourceKey": "material:glass_lambert1_3"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7a75f516ab8",
+      "kind": "scene",
+      "name": "Scene",
+      "sourceIndex": 0,
+      "sourceKey": "scene:Scene"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7a8da55b304",
+      "kind": "texture",
+      "name": "Image_2_0",
+      "sourceIndex": 0,
+      "sourceKey": "texture:Image_2_0"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7a934a90e1b",
+      "kind": "texture",
+      "name": "AO-Image_1_1",
+      "sourceIndex": 1,
+      "sourceKey": "texture:AO-Image_1_1"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7aa84bef98f",
+      "kind": "texture",
+      "name": "Image_0_2",
+      "sourceIndex": 2,
+      "sourceKey": "texture:Image_0_2"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7ab3027c078",
+      "kind": "texture",
+      "name": "Image_0_3",
+      "sourceIndex": 3,
+      "sourceKey": "texture:Image_0_3"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7acbeef7bc9",
+      "kind": "texture",
+      "name": "AO-Image_0_4",
+      "sourceIndex": 4,
+      "sourceKey": "texture:AO-Image_0_4"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7adb5c68015",
+      "kind": "texture",
+      "name": "rig_awm_ao_5",
+      "sourceIndex": 5,
+      "sourceKey": "texture:rig_awm_ao_5"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7aedea8a7d6",
+      "kind": "texture",
+      "name": "Image_1_6",
+      "sourceIndex": 6,
+      "sourceKey": "texture:Image_1_6"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7af8d3b1c37",
+      "kind": "sampler",
+      "sourceIndex": 0,
+      "sourceKey": "sampler"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7b04c748cbb",
+      "kind": "skeleton",
+      "sourceIndex": 0,
+      "sourceKey": "skeleton"
+    },
+    {
+      "guid": "01a1bb0e-41cc-7f84-a073-e7b19dcbec57",
+      "kind": "skin",
+      "sourceIndex": 0,
+      "sourceKey": "skin"
+    }
+  ]
+}
