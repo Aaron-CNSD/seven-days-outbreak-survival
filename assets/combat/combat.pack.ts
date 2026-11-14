@@ -12,6 +12,7 @@ import { Camera, PointLight } from '@forgeax/engine/render';
 import { resolveGameEntity } from '../shared/scene-refs.ts';
 import { hitTarget } from '../range/training.ts';
 import { gripAnchors } from '../weapons/detailed-models.ts';
+import { hipSpread, spreadRay, SHOTGUN_PATTERN } from '../weapons/spread.ts';
 import { Arsenal, WEAPONS } from '../weapons/config.ts';
 const ID=definePackageId('b98b92ca-6d44-453c-883e-4e72099539f1');
 export const COMBAT_GUID=AssetGuid.format(AssetGuid.derive(ID,'plugin/combat'));
@@ -61,7 +62,8 @@ export const combat:Plugin={name:'pulse/arsenal',inject:['world','gameHost','gam
    const position=world.get(player.entity,Transform).unwrap().pos;
    return Math.hypot(position[0]!,position[2]!-10.3)<4.2;
   };
-  const read=()=>({helmet:tactical.helmet,helmetMax:tactical.helmetMax,helmetEquipped:tactical.helmetEquipped,rig:tactical.rig,rigMax:tactical.rigMax,rigEquipped:tactical.rigEquipped,health:tactical.health,armor:tactical.armor,armorMax:tactical.armorMax,tier:tactical.tier,loadout:tactical.loadout,attachments:[...arsenal.attachments],skin:tactical.skin,crouched:tactical.crouched,throwable,dead:tactical.dead,round:tactical.round,kills:tactical.kills,enemies:tactical.enemies.map(e=>({x:e.x,z:e.z,hp:e.hp})),medkits:tactical.medkits,plates:tactical.plates,frags:tactical.frags,smokes:tactical.smokes,using:tactical.using,useProgress:tactical.using?1-tactical.useTime/tactical.useDuration:0,grenades:tactical.grenades.length,clouds:tactical.clouds.length,thrown:tactical.thrown,explosions:tactical.explosions,message:tactical.message,rackOpen,nearEquipment:nearEquipment(),damageFlash,hits,headshots,lastHit,hitFlash,phase,active,mobile,inspecting,selected:arsenal.selected,weapon:arsenal.weapon.name,ammo:arsenal.ammo[arsenal.selected],reserve:arsenal.reserve[arsenal.selected],magazines:[...arsenal.ammo],reserves:[...arsenal.reserve],reloading:arsenal.reloadRemaining>0,reloadProgress:arsenal.reloadRemaining>0?1-arsenal.reloadRemaining/arsenal.reloadDuration:0,aiming:arsenal.aiming,shots:arsenal.shots,weaponShots:[...arsenal.weaponShots],shotSerial,recoil:arsenal.recoil,elapsed,position:Array.from(world.get(player.entity,Transform).unwrap().pos),slide:world.hasResource('pulse-slide')?world.getResource<number>('pulse-slide'):0,lean:world.hasResource('pulse-lean')?world.getResource<number>('pulse-lean'):0,camera:player.readRig()});
+  let bloom=0, reticleSpread=0;
+  const read=()=>({helmet:tactical.helmet,helmetMax:tactical.helmetMax,helmetEquipped:tactical.helmetEquipped,rig:tactical.rig,rigMax:tactical.rigMax,rigEquipped:tactical.rigEquipped,health:tactical.health,armor:tactical.armor,armorMax:tactical.armorMax,tier:tactical.tier,loadout:tactical.loadout,attachments:[...arsenal.attachments],skin:tactical.skin,crouched:tactical.crouched,throwable,dead:tactical.dead,round:tactical.round,kills:tactical.kills,enemies:tactical.enemies.map(e=>({x:e.x,z:e.z,hp:e.hp})),medkits:tactical.medkits,plates:tactical.plates,frags:tactical.frags,smokes:tactical.smokes,using:tactical.using,useProgress:tactical.using?1-tactical.useTime/tactical.useDuration:0,grenades:tactical.grenades.length,clouds:tactical.clouds.length,thrown:tactical.thrown,explosions:tactical.explosions,message:tactical.message,rackOpen,nearEquipment:nearEquipment(),damageFlash,hits,headshots,lastHit,hitFlash,phase,active,mobile,inspecting,selected:arsenal.selected,weapon:arsenal.weapon.name,ammo:arsenal.ammo[arsenal.selected],reserve:arsenal.reserve[arsenal.selected],magazines:[...arsenal.ammo],reserves:[...arsenal.reserve],reloading:arsenal.reloadRemaining>0,reloadProgress:arsenal.reloadRemaining>0?1-arsenal.reloadRemaining/arsenal.reloadDuration:0,aiming:arsenal.aiming,shots:arsenal.shots,weaponShots:[...arsenal.weaponShots],shotSerial,recoil:arsenal.recoil,reticleSpread,elapsed,position:Array.from(world.get(player.entity,Transform).unwrap().pos),slide:world.hasResource('pulse-slide')?world.getResource<number>('pulse-slide'):0,lean:world.hasResource('pulse-lean')?world.getResource<number>('pulse-lean'):0,camera:player.readRig()});
   const receive=(ev:MessageEvent)=>{const m=ev.data;if(!m||m.channel!=='pulse/combat')return;
    if(m.kind==='settings'){settingsOpen=m.open===true;bobAmount=m.bob===false?0:1;}
    if(m.kind==='weapon-layout'&&rackOpen&&Array.isArray(m.slots)&&m.slots.length===4){
@@ -123,10 +125,14 @@ export const combat:Plugin={name:'pulse/arsenal',inject:['world','gameHost','gam
    for(let i=0;i<4;i++)if(input.keyboard.justPressedCode('Digit'+(i+1)))selection=tactical.loadout[i]!;
 
    if(active&&!mobile&&input.mouse.pointerLocked&&input.mouse.wheelDelta!==0&&equip<=0){selection=tactical.loadout[(Math.max(0,tactical.loadout.indexOf(arsenal.selected))+(input.mouse.wheelDelta>0?1:3))%4]!;}
-   if(selection>=0){if(tactical.loadout.includes(selection)){arsenal.select(selection);throwable=null;tactical.cancel();}else tactical.message='这把武器在后方装备台，按 E 装备';selection=-1;held=false;aimHeld=false;previousTrigger=false;equip=.24;shotAge=10;}
+   if(selection>=0){if(tactical.loadout.includes(selection)){if(selection!==arsenal.selected)bloom=0;arsenal.select(selection);throwable=null;tactical.cancel();}else tactical.message='这把武器在后方装备台，按 E 装备';selection=-1;held=false;aimHeld=false;previousTrigger=false;equip=.24;shotAge=10;}
    if(inspectQueued||input.keyboard.justPressedCode('KeyF')){inspecting=!inspecting;inspectTime=0;inspectQueued=false;held=false;aimHeld=false;arsenal.aiming=false;}
    if(active&&inspecting){inspectTime+=dt;if(inspectTime>3.2)inspecting=false;}throwTime=Math.max(0,throwTime-dt);damageFlash=Math.max(0,damageFlash-dt);
    visibleTime+=dt;poseMix+=(Number(inspecting)-poseMix)*(1-Math.exp(-dt*10));equip=Math.max(0,equip-dt);shotAge+=dt;hitFlash=Math.max(0,hitFlash-dt);
+   bloom=Math.max(0,bloom-dt*2.4);
+   const spreadInput=player.readInput();
+   const moving=active?Math.hypot(spreadInput.horizontal,spreadInput.vertical):0;
+   const hipCone=()=>hipSpread(arsenal.selected,moving,moving>.1&&spreadInput.run&&!tactical.crouched,tactical.crouched,bloom);
    if(active){
     elapsed+=dt;arsenal.tick(dt);tactical.tick(dt,Array.from(world.get(camera,Transform).unwrap().pos) as V);if(tactical.damageTaken>lastDamage){damageFlash=.35;lastDamage=tactical.damageTaken;}flash=Math.max(0,flash-dt);
     const right=!mobile&&input.mouse.button(2);
@@ -147,13 +153,21 @@ export const combat:Plugin={name:'pulse/arsenal',inject:['world','gameHost','gam
     if(trigger&&inspecting)inspecting=false;
     if(!tactical.using&&throwTime<=0&&!inspecting&&trigger&&(arsenal.weapon.automatic||!previousTrigger)&&arsenal.fire()){flash=.045;shotSerial++;shotAge=0;
      const rig=player.readRig(),origin=world.get(camera,Transform).unwrap().pos;
-     const forward:V=[Math.sin(rig.yaw)*Math.cos(rig.pitch),-Math.sin(rig.pitch),-Math.cos(rig.yaw)*Math.cos(rig.pitch)];
-     let enemyHit=false;
-     for(let pellet=0;pellet<(arsenal.selected===6?8:1);pellet++){const spread=arsenal.selected===6?.035:0,angle=pellet*2.4;
-      const d:V=[forward[0]+Math.cos(angle)*spread,forward[1]+Math.sin(angle)*spread,forward[2]];
-      const h=tactical.hit(Array.from(origin) as V,d,arsenal.weapon.damage,arsenal.selected===7?2.2:90);if(h){enemyHit=true;hits++;if(h.head)headshots++;lastHit=h.head?'敌人头部命中':'敌人命中';hitFlash=.22;host?.port?.postMessage({channel:'pulse/hit',head:h.head});}}
-     const hit=arsenal.selected===7||enemyHit?undefined:hitTarget(origin,[Math.sin(rig.yaw)*Math.cos(rig.pitch),-Math.sin(rig.pitch),-Math.cos(rig.yaw)*Math.cos(rig.pitch)]);
-     if(hit){world.set(impacts[hits%32]!,Transform,{pos:[hit.x,hit.y,hit.z]}).unwrap();hits++;if(hit.head)headshots++;lastHit=(hit.head?'头部命中':'靶身命中')+' · '+Math.round(hit.distance)+' m';hitFlash=.22;host?.port?.postMessage({channel:'pulse/hit',head:hit.head});}
+     const shotgun=arsenal.selected===6;
+     const cone=(arsenal.aiming?0:hipCone())+(shotgun?SHOTGUN_PATTERN:0);
+     let shotHit:{head:boolean;label:string}|undefined;
+     for(let pellet=0;pellet<(shotgun?8:1);pellet++){
+      const direction=spreadRay(rig.yaw,rig.pitch,cone,Math.random(),Math.random());
+      const enemy=tactical.hit(Array.from(origin) as V,direction,arsenal.weapon.damage,arsenal.selected===7?2.2:90);
+      if(enemy){if(!shotHit||enemy.head)shotHit={head:enemy.head,label:enemy.head?'敌人头部命中':'敌人命中'};continue;}
+      const target=arsenal.selected===7?undefined:hitTarget(origin,direction);
+      if(target&&(!shotHit||target.head&&!shotHit.head)){
+       world.set(impacts[hits%32]!,Transform,{pos:[target.x,target.y,target.z]}).unwrap();
+       shotHit={head:target.head,label:(target.head?'头部命中':'靶身命中')+' · '+Math.round(target.distance)+' m'};
+      }
+     }
+     if(shotHit){hits++;if(shotHit.head)headshots++;lastHit=shotHit.label;hitFlash=.22;host?.port?.postMessage({channel:'pulse/hit',head:shotHit.head});}
+     if(!arsenal.aiming&&arsenal.selected!==7)bloom=Math.min(1.35,bloom+.42);
      if(arsenal.selected!==7){const factor=(arsenal.aiming?.55:1)*(tactical.crouched?.65:1);player.updateRig({...rig,pitch:Math.max(-1.2,rig.pitch-arsenal.weapon.recoil*arsenal.recoilScale*.45*factor),yaw:rig.yaw+Math.sin(shotSerial*2.3)*arsenal.weapon.recoil*arsenal.recoilScale*.08*factor});}
      kickSide=(Math.sin(shotSerial*2.1)*.5+.18)*arsenal.weapon.recoil;if(arsenal.selected!==7)host?.port?.postMessage({channel:'pulse/shot',index:arsenal.selected});}
     previousTrigger=trigger;
@@ -184,7 +198,10 @@ export const combat:Plugin={name:'pulse/arsenal',inject:['world','gameHost','gam
    const weaponOffset=.19*Math.min(1,aspect/1.2);
    ads+=(Number(arsenal.aiming)-ads)*(1-Math.exp(-dt*(arsenal.selected===1?8:16)));kickSide*=Math.exp(-dt*11);
    const slide=world.hasResource('pulse-slide')?world.getResource<number>('pulse-slide'):0;
-   const hip=Math.PI/2.6;world.set(camera,Camera,{fov:hip+( (arsenal.selected===1?(arsenal.optic?Math.PI/16:Math.PI/12):arsenal.optic?Math.PI/4.3:Math.PI/3.2)-hip)*ads+arsenal.recoil*.13}).unwrap();
+   const hip=Math.PI/2.6;
+   const fov=hip+((arsenal.selected===1?(arsenal.optic?Math.PI/16:Math.PI/12):arsenal.optic?Math.PI/4.3:Math.PI/3.2)-hip)*ads+arsenal.recoil*.13;
+   world.set(camera,Camera,{fov}).unwrap();
+   reticleSpread=throwable||arsenal.aiming?0:(hipCone()+(arsenal.selected===6?SHOTGUN_PATTERN:0))/Math.tan(fov/2)*50;
    if(previewLit!==rackOpen){previewLit=rackOpen;world.set(previewLight,PointLight,{intensity:rackOpen?4:0}).unwrap();}
    const previewDepth=1.65;
    const previewHeight=2*previewDepth*Math.tan(hip/2);

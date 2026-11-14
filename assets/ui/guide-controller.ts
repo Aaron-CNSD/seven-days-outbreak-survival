@@ -163,7 +163,9 @@ export async function createGuideUi(asset:UiAsset,host:Pick<GameHost,'uiRoot'|'c
  const w=WEAPONS[s.selected as number];if(!w)return;
  text('catalog-name',w.name);text('dossier',['固定木托 · 层压木护木 · 弧形钢弹匣','拇指孔枪托 · 手动枪栓 · 高倍率光学镜','聚合物握把 · 往复套筒 · 三点式照门','沙色机匣 · 通长导轨 · 框式瞄具','双杆伸缩托 · 筒形机匣 · 护圈准星','伸缩枪托 · 导轨护木 · 自动射击','泵动护木 · 八发供弹 · 近距离散射','原钢 / 鎏金 / 冰蓝 · 近战挥刀'][s.selected]!);
  text('capacity',w.capacity+' 发');text('timing',w.reload.toFixed(2)+' s');
- node('reticle').style.scale=String(1+s.recoil*8);ui.host.classList.toggle('ads',s.aiming);ui.host.classList.toggle('reflex',s.aiming&&w.id==='scar');text('weapon-name',w.name);text('weapon-kind',w.kind+' / '+(w.automatic?'AUTO':s.selected===1?'BOLT':'SEMI'));
+ const reticle=node('reticle');
+ const spreadSize='calc('+Math.max(0,s.reticleSpread*2)+'vh + 16px)';
+ reticle.style.width=reticle.style.height=s.aiming&&w.id==='scar'?'4px':spreadSize;ui.host.classList.toggle('ads',s.aiming);ui.host.classList.toggle('reflex',s.aiming&&w.id==='scar');text('weapon-name',w.name);text('weapon-kind',w.kind+' / '+(w.automatic?'AUTO':s.selected===1?'BOLT':'SEMI'));
  text('ammo',w.id==='knife'?'∞':String(s.ammo).padStart(2,'0'));text('reserve',String(s.reserve));text('action',s.reloading?'换弹中…':s.ammo===0?'弹匣已空 · 请换弹':s.selected===1&&s.aiming?'瞄准中':'就绪');
  if(s.throwable){
   text('weapon-name',s.throwable==='frag'?'破片手雷':'烟雾弹');

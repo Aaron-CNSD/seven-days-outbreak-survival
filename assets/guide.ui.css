@@ -420,3 +420,7 @@
 :host(.started:not(.touch)) .weapons button{box-shadow:none;border-width:1px}
 :host(.started:not(.touch)) .tactical-hud span{bottom:190px}
 :host(.started:not(.touch)) .tactical-hud span:empty{display:none}
+
+/* Fixed-length ticks move outward with the projected shot cone. */
+.reticle::before,.reticle::after{left:calc(50% - 1px);height:7px}
+.reticle b,.reticle i{top:calc(50% - 1px);width:7px}
