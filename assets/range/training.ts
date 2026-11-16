@@ -4,7 +4,7 @@ import { ColliderShapeValue, RigidBodyTypeValue } from '@forgeax/engine/physics'
 import type { PackageId } from '@forgeax/engine/pack/source';
 import type { SceneEntity } from '@forgeax/engine/types';
 export const TARGETS=[{x:0,z:-2.6,d:10},{x:-6,z:-12.6,d:20},{x:4,z:-22.6,d:30},{x:-3,z:-32.6,d:40}];
-export const WALLS=[{p:[-13.5,3,-13],s:[1,6,52]},{p:[13.5,3,-13],s:[1,6,52]},{p:[0,3,-38.5],s:[28,6,1]},{p:[0,3,12.5],s:[28,6,1]}];
+export const WALLS=[{p:[-13.5,3,-13],s:[1,6,52]},{p:[13.5,3,-17],s:[1,6,44]},{p:[0,3,-38.5],s:[28,6,1]},{p:[0,3,12.5],s:[28,6,1]}];
 export function rangeMeshes(ns:PackageId){
  const yard=new VoxelMesh(ns),target=new VoxelMesh(ns),mark=new VoxelMesh(ns);
  for(const w of WALLS){const p=w.p as [number,number,number],s=w.s as [number,number,number];yard.box(p,s,'concrete');}
@@ -14,7 +14,7 @@ export function rangeMeshes(ns:PackageId){
  const floor=(x:number,z:number,w:number,d:number,m:NonNullable<Parameters<VoxelMesh['box']>[2]>,h=.003)=>yard.quad([x-w/2,h,z+d/2],[x+w/2,h,z+d/2],[x+w/2,h,z-d/2],[x-w/2,h,z-d/2],m);
  // Continuous surfaces use tiled material UVs and a separate expansion joint layer.
  for(let z=-38;z<12;z+=2)for(let x=-13;x<13;x+=2)floor(x+1,z+1,2,2,'asphalt');
- for(const side of [-1,1])for(let z=-38;z<12;z+=2)for(let y=0;y<6;y+=2){
+ for(const side of [-1,1])for(let z=-38;z<5;z+=2)for(let y=0;y<6;y+=2){
   const x=side*12.999;
   const start=side===1?z:z+2,end=side===1?z+2:z;
   yard.quad([x,y,start],[x,y,end],[x,y+2,end],[x,y+2,start],'concrete');
@@ -28,7 +28,7 @@ export function rangeMeshes(ns:PackageId){
  for(let i=0;i<1050;i++){const x=rand()*25.6-12.8,z=rand()*49-37;
   if(Math.abs(x)>10.5||rand()<.12){const r=.013+rand()*.045;yard.box([x,r*.3,z],[r,r*.5,r*1.4],rand()<.6?'gravel':'gravelLight',0,rand()*3);}
  }
- for(const side of [-1,1])for(let z=-36;z<12;z+=2){
+ for(const side of [-1,1])for(let z=-36;z<5;z+=2){
   for(const y of [1.7,3.7])yard.box([side*12.98,y,z],[.02,.045,.045],'concreteDark');
   yard.box([side*12.96,.07,z],[.08,.14,1.96],'concreteDark');
  }
@@ -45,9 +45,9 @@ export function rangeMeshes(ns:PackageId){
   yard.box([side*11.65,.17+row*.28,z],[.018,.014,1.02],'sandLight');
  }
  // Concrete panel joints, capped pilasters and amber safety bands.
- for(const side of [-1,1])for(let z=-37;z<=11;z+=4){yard.box([side*12.91,2.8,z],[.16,5.6,.16],'concreteDark');yard.box([side*12.85,5.8,z],[.28,.3,.4],'sand');}
+ for(const side of [-1,1])for(let z=-37;z<=3;z+=4){yard.box([side*12.91,2.8,z],[.16,5.6,.16],'concreteDark');yard.box([side*12.85,5.8,z],[.28,.3,.4],'sand');}
  for(let x=-12;x<=12;x+=4){yard.box([x,2.8,-37.91],[.16,5.6,.16],'concreteDark');yard.box([x,2.8,11.91],[.16,5.6,.16],'concreteDark');}
- for(const side of [-1,1])yard.box([side*12.92,1.2,-13],[.03,.15,50],'sandLight');
+ for(const side of [-1,1])yard.box([side*12.92,1.2,-17],[.03,.15,42],'sandLight');
  for(let x=-10;x<=10;x+=5)yard.box([x,.012,-13],[.055,.02,49],'white');
  const segments:Record<string,string>={'0':'abcedf','1':'bc','2':'abged','3':'abgcd','4':'fgbc'};
  const strokes=[[0,.27,.24,.045],[.12,.135,.045,.24],[.12,-.135,.045,.24],

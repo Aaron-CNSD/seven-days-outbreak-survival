@@ -424,3 +424,22 @@
 /* Fixed-length ticks move outward with the projected shot cone. */
 .reticle::before,.reticle::after{left:calc(50% - 1px);height:7px}
 .reticle b,.reticle i{top:calc(50% - 1px);width:7px}
+
+.world-launch{position:absolute;right:24px;top:340px;pointer-events:auto;background:#18252cdd;border:1px solid #7e958477;color:#e5e8dc;padding:9px 14px;cursor:pointer}.world-location{position:absolute;left:280px;top:78px;color:#c4cab8;font:11px monospace}.world-map[hidden]{display:none}.world-map{position:absolute;inset:5vh 5vw;background:#101b21f5;border:1px solid #6d7e7288;z-index:120;pointer-events:auto;padding:24px;color:#e4e6dc;overflow:auto}.world-map header{display:flex;justify-content:space-between;align-items:flex-start}.world-map h2{font-size:30px;margin:8px 0}.world-map p,.world-map small{color:#a2b0ac;font-size:12px;line-height:1.8}.world-map button{color:#e8e9dd;background:#293b40;border:1px solid #71847755;padding:10px 14px;cursor:pointer}.world-map button:hover{background:#506357}.world-map-body{display:grid;grid-template-columns:1fr 235px;gap:25px;margin-top:20px}.world-plot{position:relative;aspect-ratio:6/5;background:linear-gradient(to right,#424b46 0%,#424b46 67.5%,#344d37 67.5%,#344d37 87.5%,#9b906d 87.5%,#9b906d 90.3%,#294a60 90.3%);border:1px solid #82908055;overflow:hidden;background-size:100% 100%}.world-plot::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(#ffffff0d 1px,transparent 1px),linear-gradient(90deg,#ffffff0d 1px,transparent 1px);background-size:16.666% 20%}.world-building{position:absolute;width:4px;height:4px;background:#d4c6a2}.world-zone{position:absolute;top:12px;font-size:11px;color:#e0e5ce}.world-zone.city{left:25%}.world-zone.forest{left:75%}.world-zone.sea{right:1%;writing-mode:vertical-rl}.world-plot b{position:absolute;color:#ffce69;text-shadow:0 0 8px black;z-index:3;font-size:20px;transform:translate(-50%,-50%)}.world-plot>small{position:absolute;bottom:8px;left:12px;z-index:2}.world-map aside button{display:block;width:100%;text-align:left;margin:7px 0}.world-map aside h3{margin:0;font-size:16px}@media(max-width:700px){.world-map{inset:2vh 2vw;padding:12px}.world-map-body{grid-template-columns:1fr}.world-map aside button{display:inline-block;width:48%;font-size:11px}.world-location{top:75px;font-size:9px}.world-launch{right:12px;top:170px;font-size:11px}}
+
+.combat-map[hidden],.range-stats[hidden]{display:none}
+
+.world-plot{width:min(100%,calc((80vh - 120px)*1.2));justify-self:center}.world-map-body{grid-template-columns:minmax(0,1fr) 235px}@media(max-width:700px){.world-map-body{grid-template-columns:1fr}.world-plot{width:100%}}
+
+:host(.world-roaming) .combat-map,:host(.world-roaming) .range-stats{display:none!important}
+
+.lift-controls{position:absolute;left:50%;top:65%;transform:translateX(-50%);padding:12px;background:#172a2beb;pointer-events:auto}.lift-controls[hidden]{display:none}.lift-controls button{background:#42574d;color:white;border:1px solid #81998a;margin-left:10px;padding:8px}.world-map aside button{padding:7px 12px;margin:5px 0;font-size:12px}
+
+:host(.world-roaming) .tactical-actions [data-action=round]{display:none}
+@media(max-height:640px){
+ .world-location{left:24px;top:210px;font-size:10px}
+ .world-launch{right:24px;top:126px;font-size:11px}
+ :host(.started:not(.touch)) .combat-map{display:none}
+ :host(.started:not(.touch)) .inspect-button{top:176px;bottom:auto;right:24px}
+ :host(.started:not(.touch)) .ammo{top:auto!important;bottom:130px!important}
+}

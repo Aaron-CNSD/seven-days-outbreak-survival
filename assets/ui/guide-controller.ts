@@ -1,6 +1,7 @@
 import type { GameHost } from '@forgeax/engine/app';
 import { mountUi, type UiAsset, type UiInstance } from '@forgeax/engine/ui';
 import { installPlayerControls } from './player-controls.ts';
+import { BUILDINGS, DESTINATIONS } from '../outbreak/layout.ts';
 import { WEAPONS } from '../weapons/config.ts';
 export async function createGuideUi(asset:UiAsset,host:Pick<GameHost,'uiRoot'|'controlMode'|'port'|'presentationPort'>):Promise<UiInstance>{
  if(!host.uiRoot)throw new Error('FPS HUD needs uiRoot');
@@ -16,6 +17,15 @@ export async function createGuideUi(asset:UiAsset,host:Pick<GameHost,'uiRoot'|'c
  let started=false,touch=false,aim=false,flashTimer:ReturnType<typeof setTimeout>|undefined,audio:AudioContext|undefined;
  const mode=()=>{touch=(host.controlMode?.read()==='touch');ui.host.classList.toggle('touch',touch);ui.host.classList.toggle('locked',host.controlMode?.read()==='pointer-locked');controls?.setEnabled(started&&touch);send({kind:'mode',touch});};
  const listen=(target:EventTarget,name:string,fn:EventListener)=>{target.addEventListener(name,fn);releases.push(()=>target.removeEventListener(name,fn));};
+ let mapOpen=false;
+ const toggleMap=(open:boolean)=>{mapOpen=open;node('world-map').hidden=!open;send({kind:'settings',open,bob:(node('bob') as HTMLInputElement).checked});if(open)document.exitPointerLock?.();};
+ listen(node('lift-up'),'click',()=>port?.postMessage({channel:'outbreak/world',kind:'lift',direction:1}));listen(node('lift-down'),'click',()=>port?.postMessage({channel:'outbreak/world',kind:'lift',direction:-1}));
+ listen(node('world-map-open'),'click',()=>toggleMap(true));listen(node('world-map-close'),'click',()=>toggleMap(false));
+ listen(document,'keydown',event=>{const e=event as KeyboardEvent;if(e.code==='KeyM'&&!e.repeat){e.preventDefault();toggleMap(!mapOpen);}if(e.code==='Escape'&&mapOpen)toggleMap(false);});
+ const plot=node('world-plot');
+ for(const b of BUILDINGS){const dot=document.createElement('i');dot.className='world-building';dot.style.left=((b.x+3000)/60)+'%';dot.style.top=((b.z+2500)/50)+'%';plot.append(dot);}
+ DESTINATIONS.forEach((d,index)=>{const button=document.createElement('button');button.textContent=d.name;button.dataset.travel=String(index);node('world-destinations').append(button);listen(button,'click',()=>{port?.postMessage({channel:'outbreak/world',kind:'travel',destination:index});toggleMap(false);});});
+ listen(port!,'message',event=>{const s=(event as MessageEvent).data;if(s?.channel!=='outbreak/state')return;node('lift-controls').hidden=!s.elevatorAvailable;text('lift-status','电梯 · '+s.floor+' 层');ui.host.classList.toggle('world-roaming',Math.hypot(s.position[0],s.position[2])>55);text('world-location',s.region+' · '+Math.round(s.position[0])+' / '+Math.round(s.position[2])+' m');node('world-marker').style.left=((s.position[0]+3000)/60)+'%';node('world-marker').style.top=((s.position[2]+2500)/50)+'%';});
  // Three layers share one shot clock: pressure thump, filtered crack, then action click.
  let volume=.7;
  const sound=(index:number)=>{

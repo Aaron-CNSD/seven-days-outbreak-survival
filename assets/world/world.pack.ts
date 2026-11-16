@@ -4,6 +4,7 @@ import { assetGuid, guidText, PACKAGE_IDS } from '../shared/asset-refs.ts';
 import { joinPluginFiber, mountPluginAsset, type Plugin } from '@forgeax/engine/plugin';
 import { worldDespawnScene } from '@forgeax/engine/scene';
 import type {} from '../shared/scene-refs.ts';
+import { OUTBREAK_GUID } from '../outbreak/outbreak.pack.ts';
 import { COMBAT_GUID } from '../combat/combat.pack.ts';
 export const scene: Plugin.Object<{ readonly scene: string; readonly children: readonly string[] }> =
   {
@@ -45,6 +46,7 @@ export default definePack({
           { $asset: 'c034cc6c-b31f-5b16-89d6-4db4d05939d8' },
           { $asset: '2056f194-6791-5504-8ae1-d67c2bdfa28a' },
           { $asset: COMBAT_GUID },
+          { $asset: OUTBREAK_GUID },
         ],
       },
     },

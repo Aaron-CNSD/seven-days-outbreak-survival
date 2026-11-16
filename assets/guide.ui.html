@@ -1,4 +1,10 @@
 <div class="shell">
+<button class="world-launch" data-part="world-map-open">M · 区域地图</button>
+<div class="lift-controls" data-part="lift-controls" hidden><span data-part="lift-status"></span><button data-part="lift-up">G 上楼</button><button data-part="lift-down">H 下楼</button></div><div class="world-location" data-part="world-location">废弃城区 · 出发点</div>
+<section class="world-map" data-part="world-map" hidden role="dialog" aria-label="区域地图">
+<header><div><small>SEVEN DAYS / OUTBREAK</small><h2>遗落海岸</h2><p>6 × 5 km · 1660 栋可进入建筑 · 30 km²（含近海）</p></div><button data-part="world-map-close">关闭 / M</button></header>
+<div class="world-map-body"><div class="world-plot" data-part="world-plot"><span class="world-zone city">废弃城区</span><span class="world-zone forest">森林</span><span class="world-zone sea">海岸 / 海洋</span><b data-part="world-marker">▲</b><small>0 ━━━ 1 km　 N ↑</small></div><aside><h3>地点导航</h3><p>选择地点快速前往。高楼大堂尽头 G 上楼 / H 下楼。</p><div data-part="world-destinations"></div><small>医院 · 餐厅 · 商场 · 学校<br>摩天轮 · 过山车 · 旋转木马<br>办公室 · 车库 · 木屋 · 旅馆</small></aside></div>
+</section>
   <div class="combat-compass" aria-label="方向罗盘"><div data-part="compass"></div><b>▾</b></div>
   <aside class="combat-map" aria-label="训练场小地图">
     <div class="map-title"><span>训练场</span><b>N</b></div>
@@ -6,8 +12,8 @@
   </aside>
 <button class="settings-launch" data-part="settings-open">设置</button>
 <section class="settings-panel" data-part="settings-panel" hidden><h2>游戏设置</h2><label>音效音量 <input data-part="volume" type="range" min="0" max="100" value="70"></label><label><input data-part="bob" type="checkbox" checked> 手持武器呼吸与移动晃动</label><p>按住 Shift 蹲下 · 双击并按住 W 冲刺 · 冲刺时按住 Shift 滑铲<br>E 背包 · 按住 Q / C 左右探头 · F 检视 · 1–6 切换装备<br>5 / 6 选投掷物，右键或长按开火投掷</p><button data-part="settings-close">保存并返回</button></section>
-  <header class="topbar"><div class="brand"><i></i><span>FIELD / 08<small>封闭训练场 · FIRING RANGE</small></span></div><span class="build-tag">天工引擎 / 01</span></header>
-  <section class="intro" data-part="intro"><span class="eyebrow">ARMOURY  /  武器档案</span><h1 data-part="catalog-name">AK-47</h1><p class="dossier" data-part="dossier"></p><div class="specs"><span>供弹 <b data-part="capacity">30</b></span><span>装填 <b data-part="timing">2.30 s</b></span></div><button data-part="start" class="start">进入训练场 <span>↗</span></button><small class="intro-hint">10 / 20 / 30 / 40 米靶位 · 四周封闭</small></section>
+  <header class="topbar"><div class="brand"><i></i><span>FIELD / 08<small>遗落海岸 · OPEN WORLD</small></span></div><span class="build-tag">天工引擎 / 01</span></header>
+  <section class="intro" data-part="intro"><span class="eyebrow">ARMOURY  /  武器档案</span><h1 data-part="catalog-name">AK-47</h1><p class="dossier" data-part="dossier"></p><div class="specs"><span>供弹 <b data-part="capacity">30</b></span><span>装填 <b data-part="timing">2.30 s</b></span></div><button data-part="start" class="start">进入训练场 <span>↗</span></button><small class="intro-hint">训练场右侧出口通往城区 · M 打开 30 km² 区域地图</small></section>
   <div class="status" data-part="status">点击画面，锁定鼠标开始操作</div>
   <div class="hit-feedback" data-part="hit-feedback"></div><div class="range-stats"><span>RANGE / 射击训练</span><strong data-part="hit-count">命中 0 · 头部 0</strong><small data-part="hit-result">向前方靶位射击</small></div>
   <div class="reticle" data-part="reticle"><b></b><i></i></div>
