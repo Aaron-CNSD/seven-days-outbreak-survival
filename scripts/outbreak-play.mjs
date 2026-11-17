@@ -8,7 +8,7 @@ export default async function(play){
  await play.page.getByRole('button',{name:'市立医院',exact:true}).click();
  await play.waitFor(s=>s.position[2]<-55,{read:'outbreak.world'});
  await play.advance(1,{read:'pulse.game'});await play.mouse.click([.5,.5]);await play.waitFor(s=>s.active,{read:'pulse.game'});
- await play.screenshot('abandoned-hospital-exterior');
+ assert((await play.state('outbreak.world')).loadedStreetClusters>0);await play.screenshot('abandoned-hospital-exterior');
  await play.page.keyboard.down('KeyW');await play.advance(3,{read:'pulse.game'});await play.page.keyboard.up('KeyW');
  const hospital=await play.state('outbreak.world');assert(hospital.position[2]<-68,'walk through hospital doorway');
  await play.page.mouse.move(580,455);await play.advance(.3,{read:'pulse.game'});await play.screenshot('hospital-enterable-interior');

@@ -1,3 +1,4 @@
+import { streetModel } from './street.ts';
 import { definePack, definePackageId } from '@forgeax/engine/pack/source';
 import { AssetGuid } from '@forgeax/engine/pack/guid';
 import { ok } from '@forgeax/engine/types';
@@ -26,7 +27,7 @@ export const outbreak:Plugin={name:'outbreak/world',inject:['world','assets','ga
    const key=kind+'-'+v;shapes.set(key,buildingModel(kind,v).solids);
    for(const part of ['shell','inside',...(towerFloors({id:0,x:0,z:0,kind,variant:v})>1?['tower']:[])]){const h=(await assets.load(guid('mesh/'+key+'-'+part),'mesh')).unwrap();handles.set(key+'-'+part,h);yield()=>{assets.release(h).unwrap();};}
   }
-  for(const key of ['landscape','tree','park-ground','park-wheel','park-cabin','park-car',...Array.from({length:7},(_,i)=>'roof-'+i),...Array.from({length:8},(_,i)=>'facade-'+i),...Array.from({length:4},(_,i)=>'equipment-'+i)]){const h=(await assets.load(guid('mesh/'+key),'mesh')).unwrap();handles.set(key,h);yield()=>{assets.release(h).unwrap();};}
+  for(const key of [...Array.from({length:4},(_,i)=>'street-'+i),'landscape','tree','park-ground','park-wheel','park-cabin','park-car',...Array.from({length:7},(_,i)=>'roof-'+i),...Array.from({length:8},(_,i)=>'facade-'+i),...Array.from({length:4},(_,i)=>'equipment-'+i)]){const h=(await assets.load(guid('mesh/'+key),'mesh')).unwrap();handles.set(key,h);yield()=>{assets.release(h).unwrap();};}
   const all=new Set<EntityHandle>();
   const remove=(entities:EntityHandle[])=>{for(const e of entities){world.despawn(e).unwrap();all.delete(e);}};
   yield()=>remove([...all]);
@@ -37,6 +38,7 @@ export const outbreak:Plugin={name:'outbreak/world',inject:['world','assets','ga
   for(const x of [-3000,3000])solid([x,30,0],[1,60,5000]);
   for(const z of [-2500,2500])solid([0,30,z],[6000,60,1]);
   solid([2430,0,0],[110,.3,5]);
+  const streets=new Map<number,EntityHandle[]>();
   const shells=new Map<number,EntityHandle[]>(),interiors=new Map<number,EntityHandle[]>(),colliders=new Map<number,EntityHandle[]>(),trees=new Map<number,EntityHandle[]>();
   const uniqueDesigns=new Set(BUILDINGS.map(designSignature)).size;
   const forest=treeLocations();let timer=1,travelling=false,parkTime=0;
@@ -53,10 +55,12 @@ export const outbreak:Plugin={name:'outbreak/world',inject:['world','assets','ga
   const stream=()=>{
    const p=world.get(player.entity,Transform).unwrap().pos,x=p[0]!,z=p[2]!;
    const wanted=nearbyBuildings(x,z,320),ids=new Set(wanted.map(b=>b.id));
+   for(const [id,es] of streets)if(Math.hypot(BUILDINGS[id]!.x-x,BUILDINGS[id]!.z-z)>110){remove(es);streets.delete(id);}
    for(const [id,es] of shells)if(!ids.has(id)){remove(es);shells.delete(id);}
    for(const [id,es] of interiors)if(Math.hypot(BUILDINGS[id]!.x-x,BUILDINGS[id]!.z-z)>65){remove(es);interiors.delete(id);}
    for(const [id,es] of colliders)if(Math.hypot(BUILDINGS[id]!.x-x,BUILDINGS[id]!.z-z)>95){remove(es);colliders.delete(id);}
    for(const b of wanted){const key=b.kind+'-'+b.variant,dist=Math.hypot(b.x-x,b.z-z);
+    if(dist<90&&b.kind!=='cabin'&&!streets.has(b.id)){const [w,d]=buildingDimensions(b);streets.set(b.id,[mesh('street-'+b.id%4,[b.x,0,b.z],[w/20,1,d/20])]);}
     if(!shells.has(b.id))shells.set(b.id,buildingParts(b).map(part=>mesh(part.key,part.p,part.scale)));
     if(dist<55&&!interiors.has(b.id))interiors.set(b.id,[mesh(key+'-inside',[b.x,0,b.z],buildingScale(b)),light([b.x,3.4,b.z+buildingDimensions(b)[1]/4]),light([b.x,3.4,b.z-buildingDimensions(b)[1]/4])]);
     if(dist<80&&!colliders.has(b.id))colliders.set(b.id,shapes.get(key)!.map(box=>{const s=buildingScale(b);return solid([b.x+box.p[0]*s[0],box.p[1],b.z+box.p[2]*s[2]],[box.s[0]*s[0],box.s[1],box.s[2]*s[2]]);}));
@@ -67,7 +71,7 @@ export const outbreak:Plugin={name:'outbreak/world',inject:['world','assets','ga
    for(const t of nearby)if(!trees.has(t.id))trees.set(t.id,[mesh('tree',[t.x,0,t.z],[t.size,t.size,t.size]),solid([t.x,2*t.size,t.z],[.55*t.size,4*t.size,.55*t.size])]);
   };
   stream();
-  const read=()=>{const p=Array.from(world.get(player.entity,Transform).unwrap().pos);return {areaKm2:30,widthMetres:6000,depthMetres:5000,buildingCount:BUILDINGS.length,uniqueDesigns,region:regionAt(p[0]!,p[2]!),towerCount:BUILDINGS.filter(b=>towerFloors(b)>1).length,maxHeightMetres:153.6,parkLoaded:parkEntities.length>0,parkTime,elevatorAvailable:!!elevatorCandidate(),floor:Math.floor((p[1]!-.5)/4.8)+1,position:p,loadedBuildings:shells.size,loadedInteriors:interiors.size,loadedTrees:trees.size,travelling,nearest:nearbyBuildings(p[0]!,p[2]!,80).map(b=>({id:b.id,kind:b.kind,x:b.x,z:b.z}))};};
+  const read=()=>{const p=Array.from(world.get(player.entity,Transform).unwrap().pos);return {areaKm2:30,widthMetres:6000,depthMetres:5000,buildingCount:BUILDINGS.length,uniqueDesigns,region:regionAt(p[0]!,p[2]!),towerCount:BUILDINGS.filter(b=>towerFloors(b)>1).length,maxHeightMetres:153.6,parkLoaded:parkEntities.length>0,parkTime,elevatorAvailable:!!elevatorCandidate(),floor:Math.floor((p[1]!-.5)/4.8)+1,position:p,loadedStreetClusters:streets.size,loadedBuildings:shells.size,loadedInteriors:interiors.size,loadedTrees:trees.size,travelling,nearest:nearbyBuildings(p[0]!,p[2]!,80).map(b=>({id:b.id,kind:b.kind,x:b.x,z:b.z}))};};
   const unregister=host.gameProjection?.registerRead({id:'outbreak.world',title:'30 km² outbreak world',description:'Metric size, streamed buildings and interiors, player region.',read});if(unregister)yield unregister;
   const receive=(ev:MessageEvent)=>{const m=ev.data;if(m?.channel==='outbreak/world'&&m.kind==='lift'){lift(m.direction===-1?-1:1);return;}if(m?.channel!=='outbreak/world'||m.kind!=='travel'||!Number.isInteger(m.destination))return;const d=DESTINATIONS[m.destination];if(!d)return;travelling=true;remove(upperFloor.splice(0));(ctx.physics as PhysicsWorld).teleport(player.entity,vec3.create(d.x,1.05,d.z));world.set(player.entity,Transform,{pos:[d.x,1.05,d.z]}).unwrap();world.set(player.entity,ThirdPersonRig,{verticalVelocity:0,focusX:d.x,focusY:1.55,focusZ:d.z,yaw:d.yaw??0,pitch:0}).unwrap();stream();travelling=false;};
   host.port?.addEventListener('message',receive);yield()=>host.port?.removeEventListener('message',receive);
@@ -80,7 +84,7 @@ export const outbreak:Plugin={name:'outbreak/world',inject:['world','assets','ga
  });
 }};
 export default definePack({schemaVersion:'2.0.0',packageId:ID,plugins:true,build:()=>{
- const park=parkModels();const entries:any[]=[['plugin/world',{kind:'plugin',module:{specifier:'./outbreak.pack.ts',export:'outbreak'},config:{}}],['mesh/landscape',landscape()],['mesh/tree',treeModel()],...Array.from({length:7},(_,i)=>['mesh/roof-'+i,roofModel(i)]),...Array.from({length:8},(_,i)=>['mesh/facade-'+i,facadeModel(i)]),...Array.from({length:4},(_,i)=>['mesh/equipment-'+i,equipmentModel(i)]),...Object.entries(park).map(([key,value])=>['mesh/park-'+key,value])];
+ const park=parkModels();const entries:any[]=[['plugin/world',{kind:'plugin',module:{specifier:'./outbreak.pack.ts',export:'outbreak'},config:{}}],...Array.from({length:4},(_,i)=>['mesh/street-'+i,streetModel(i)]),['mesh/landscape',landscape()],['mesh/tree',treeModel()],...Array.from({length:7},(_,i)=>['mesh/roof-'+i,roofModel(i)]),...Array.from({length:8},(_,i)=>['mesh/facade-'+i,facadeModel(i)]),...Array.from({length:4},(_,i)=>['mesh/equipment-'+i,equipmentModel(i)]),...Object.entries(park).map(([key,value])=>['mesh/park-'+key,value])];
  for(const kind of KINDS)for(let v=0;v<DESIGN_VARIANTS;v++){const m=buildingModel(kind,v);entries.push(['mesh/'+kind+'-'+v+'-shell',m.shell],['mesh/'+kind+'-'+v+'-inside',m.inside]);if(towerFloors({id:0,x:0,z:0,kind,variant:v})>1)entries.push(['mesh/'+kind+'-'+v+'-tower',towerModel(kind,v)]);}
  return ok(Object.fromEntries(entries));
 }});
