@@ -443,3 +443,8 @@
  :host(.started:not(.touch)) .inspect-button{top:176px;bottom:auto;right:24px}
  :host(.started:not(.touch)) .ammo{top:auto!important;bottom:130px!important}
 }
+/* Compact launch screen: keep the weapon picker clear of descriptive text. */
+@media(max-height:640px){
+ :host(:not(.started)) .world-location{top:64px;left:24px}
+ :host(:not(.started)) .intro-hint{display:none}
+}

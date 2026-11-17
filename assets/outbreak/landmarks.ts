@@ -3,14 +3,23 @@ import { WEAPON_NAMESPACE } from '../weapons/weapon-scene.ts';
 import { dimensions, towerFloors, type Kind } from './layout.ts';
 export function towerModel(kind:Kind,variant:number){
  const m=new VoxelMesh(WEAPON_NAMESPACE),[w,d]=dimensions(kind),floors=towerFloors({id:0,x:0,z:0,kind,variant});
- const wall:Material=variant===0?'concreteLight':variant===1?'sandLight':'steelDark';
+ const wall:Material=(['concreteLight','sandLight','steelDark','white','rust','sand','concrete','oliveDark','steel','woodDark','sandDark','concreteDark'] as const)[variant]!;
+ const spacing=3.1+(variant%5)*.48;
  for(let f=1;f<floors;f++){
   const y=f*4.8;
   for(const side of [-1,1]){
    m.box([side*w/2,y+2.2,0],[.3,4.4,d],wall);m.box([0,y+2.2,side*d/2],[w,4.4,.3],wall);
-   for(let x=-w/2+2;x<w/2;x+=4){m.box([x,y+2.3,side*(d/2+.17)],[1.9,2.6,.04],(f+Math.round(x))%5===0?'sand':'lens');m.box([x,y+.95,side*(d/2+.23)],[2.1,.12,.16],'steelLight');}
-   for(let z=-d/2+2;z<d/2;z+=4)m.box([side*(w/2+.17),y+2.3,z],[.04,2.6,1.9],(f+Math.round(z))%7===0?'sand':'lens');
+   for(let x=-w/2+2;x<w/2;x+=spacing){m.box([x,y+2.3,side*(d/2+.17)],[spacing-.8,2.3+(variant%3)*.17,.04],(f*7+Math.round(x)*3+variant)%9===0?'woodDark':(f+Math.round(x)+variant)%5===0?'sand':'lens');m.box([x,y+.95,side*(d/2+.23)],[spacing-.6,.12,.3],'steelLight');}
+   for(let x=-w/2+2;x<w/2;x+=spacing){
+    m.box([x,y+2.3,side*(d/2+.22)],[.07,2.4,.07],'steelLight');
+    m.box([x,y+3.5,side*(d/2+.22)],[spacing-.75,.065,.09],'steelLight');
+    if((variant%3===2)&&f%3===1){m.box([x,y+.8,side*(d/2+1)],[spacing-.5,.16,1.9],'concrete');m.box([x,y+1.65,side*(d/2+1.9)],[spacing-.5,.07,.07],'steel');for(let dx=-1;dx<=1;dx+=.5)m.box([x+dx,y+1.2,side*(d/2+1.9)],[.045,.9,.045],'steel');}
+    if(variant%4===1)m.box([x+spacing/2,y+2.2,side*(d/2+.38)],[.18,4.8,.65],'concreteLight');
+    if((f*3+Math.round(x)+variant)%11===0){m.box([x,y+1.2,side*(d/2+.6)],[.9,.55,.7],'steelLight');for(let dx=-.3;dx<=.3;dx+=.15)m.box([x+dx,y+1.22,side*(d/2+.97)],[.045,.35,.02],'steelDark');}
+   }
+   for(let z=-d/2+2;z<d/2;z+=spacing)m.box([side*(w/2+.17),y+2.3,z],[.04,2.6,1.9],(f+Math.round(z))%7===0?'sand':'lens');
   }
+  if(f%4===variant%4)m.box([0,y+4.3,0],[w+.8,.25,d+.8],variant%2?'sandDark':'steelLight');
   m.box([0,y+4.55,0],[w+.3,.2,d+.3],'concreteDark');
  }
  if(floors>1){m.box([0,floors*4.8,0],[w+.5,.25,d+.5],'steelDark');m.box([0,floors*4.8+1.8,0],[8,3.6,7],'concrete');m.tube([0,floors*4.8+7,0],.15,12,'steelLight',0,'y',6);}

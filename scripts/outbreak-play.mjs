@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 export default async function(play){
  await play.page.getByRole('button',{name:'进入训练场'}).click();
  await play.waitFor(s=>s.buildingCount>=1660,{read:'outbreak.world'});
- const initial=await play.state('outbreak.world');assert.equal(initial.areaKm2,30);
+ const initial=await play.state('outbreak.world');assert.equal(initial.areaKm2,30);assert.equal(initial.uniqueDesigns,initial.buildingCount);
  await play.page.getByRole('button',{name:'M · 区域地图',exact:true}).click();
  await play.screenshot('outbreak-map-30km-1660-buildings');
  await play.page.getByRole('button',{name:'市立医院',exact:true}).click();
@@ -25,5 +25,5 @@ export default async function(play){
  await play.page.keyboard.press('KeyH');await play.waitFor(s=>s.position[1]<2,{read:'outbreak.world'});
  for(const [name,shot]of [['海滨游乐场','seaside-amusement-park'],['摩天轮广场','animated-ferris-wheel'],['过山车车站','rollercoaster-track-and-train']]){await play.page.keyboard.press('KeyM');await play.page.getByRole('button',{name,exact:true}).click();await play.advance(2,{read:'pulse.game'});await play.mouse.click([.5,.5]);await play.page.mouse.move(720,310);await play.advance(.3,{read:'pulse.game'});const a=await play.state('outbreak.world');assert(a.parkLoaded);await play.screenshot(shot);await play.advance(2,{read:'pulse.game'});assert((await play.state('outbreak.world')).parkTime>a.parkTime);}
  await play.reload();await play.waitFor(s=>s.buildingCount===1660,{read:'outbreak.world'});
- return {areaKm2:initial.areaKm2,buildings:initial.buildingCount,hospitalEntry:true};
+ return {areaKm2:initial.areaKm2,buildings:initial.buildingCount,uniqueDesigns:initial.uniqueDesigns,hospitalEntry:true};
 }

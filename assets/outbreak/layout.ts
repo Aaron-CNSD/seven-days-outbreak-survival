@@ -15,7 +15,15 @@ export const BUILDINGS:Building[]=Array.from({length:1660},(_,id)=>{
 let relocated=0;
 for(const b of BUILDINGS)if(Math.abs(b.x)<85&&Math.abs(b.z)<150){b.x=-2750;b.z=-2000+(relocated++)*80;}
 BUILDINGS[0]={id:0,x:0,z:-85,kind:'hospital',variant:0};
-export const towerFloors=(b:Building)=>b.kind==='office'?[12,20,32][b.variant]!:b.kind==='apartment'?[6,10,16][b.variant]!:b.kind==='hotel'?8:1;
+export const DESIGN_VARIANTS=12;
+export function buildingScale(b:Building):[number,number,number]{return [.82+((b.id*17)%1661)/1661*.18,1,.84+((b.id*113+37)%1661)/1661*.16];}
+export const designCode=(b:Building)=>(b.id*997+73)%2017;
+export const roofStyle=(b:Building)=>Math.floor(designCode(b)/12)%7;
+export const facadeStyle=(b:Building)=>Math.floor(designCode(b)/84)%8;
+export const equipmentStyle=(b:Building)=>Math.floor(designCode(b)/672);
+export const towerFloors=(b:Building)=>b.kind==='office'?[12,20,32,16,24,28][b.variant%6]!:b.kind==='apartment'?[6,10,16,8,12,14][b.variant%6]!:b.kind==='hotel'?[6,8,10][b.variant%3]!:1;
+for(const b of BUILDINGS)b.variant=designCode(b)%DESIGN_VARIANTS;
+export const buildingDimensions=(b:Building):[number,number]=>{const [w,d]=dimensions(b.kind),s=buildingScale(b);return [w*s[0],d*s[2]];};
 export const dimensions=(kind:Kind):[number,number]=>kind==='office'?[48,50]:kind==='apartment'?[46,48]:kind==='hospital'?[36,38]:kind==='mall'?[48,42]:kind==='school'?[34,30]:kind==='warehouse'?[30,30]:kind==='cabin'?[14,16]:[24,24];
 export const PARK={x:2020,z:650};
 let parkRelocations=0;for(const b of BUILDINGS)if(b.id>=1600&&Math.hypot(b.x-PARK.x,b.z-PARK.z)<240){b.x=1100;b.z=-2440+(parkRelocations++)*70;}

@@ -6,17 +6,18 @@ export function buildingModel(kind:Kind,variant:number){
  const shell=new VoxelMesh(WEAPON_NAMESPACE),inside=new VoxelMesh(WEAPON_NAMESPACE),solids:Solid[]=[];
  const [w,d]=dimensions(kind),h=4.4;
  const box=(m:VoxelMesh,p:V3,s:V3,c:Material,solid=false)=>{m.box(p,s,c);if(solid)solids.push({p,s});};
- const wall:Material=kind==='cabin'?'woodDark':variant===1?'sandLight':variant===2?'concreteLight':'white';
+ const wall:Material=kind==='cabin'?((['woodDark','wood','oliveDark'] as const)[variant%3]!):(['white','sandLight','concreteLight','concrete','rust','sand','steelDark','oliveLight','concreteDark','woodDark','sandDark','steelLight'] as const)[variant]!;
+ const entry=(variant%3-1)*.8,split=-2+(variant%4)*1.1;
  // A generous open front doorway, windows on both sides, continuous floor and roof.
  box(shell,[0,-.12,0],[w,.24,d],'concrete');
  for(const side of [-1,1]){
-  box(shell,[side*(w/4+1),h/2,d/2],[w/2-2,h,.3],wall,true);
+  box(shell,[side*(w/4+1)+entry/2,h/2,d/2],[w/2-2-side*entry,h,.3],wall,true);
   box(shell,[side*w/2,.55,0],[.3,1.1,d],wall,true);
   box(shell,[side*w/2,3.8,0],[.3,1.2,d],wall,true);
   for(let z=-d/2;z<=d/2;z+=4){box(shell,[side*w/2,2.2,z],[.38,2.2,.45],wall,true);box(shell,[side*(w/2+.05),1.15,z+1.8],[.5,.12,3.1],'steelDark');}
-  box(shell,[side*2.03,1.55,d/2+.09],[.12,3.1,.4],'steelDark');
+  box(shell,[entry+side*2.03,1.55,d/2+.09],[.12,3.1,.4],'steelDark');
  }
- box(shell,[0,3.75,d/2],[4,1.3,.3],wall,true);
+ box(shell,[entry,3.75,d/2],[4,1.3,.3],wall,true);
  box(shell,[0,h/2,-d/2],[w,h,.3],wall,true);
  box(shell,[0,h+.12,0],[w+.5,.24,d+.5],'concreteDark',true);
  box(shell,[0,3.7,d/2+.25],[Math.min(w-2,16),.7,.16],kind==='hospital'?'red':kind==='restaurant'?'wood':kind==='mall'?'steel':'oliveDark');
@@ -25,11 +26,11 @@ export function buildingModel(kind:Kind,variant:number){
  box(shell,[0,-.08,d/2+1.5],[w+3,.16,3],'concreteLight');
  for(const side of [-1,1])box(shell,[side*(w/2-.15),4.65,0],[.25,.8,d],'concreteDark');
  for(let i=0;i<3;i++){box(shell,[-w/3+i*3,4.8,-d/3],[1.4,.9,1.4],'steel');for(let j=0;j<4;j++)box(shell,[-w/3+i*3,4.9,-d/3+.72-j*.01],[1.1,.035,.02],'steelDark');}
- for(let i=0;i<14;i++){const x=(i*7.91%w)-w/2;box(shell,[x,.1+(i%4)*.33,d/2+.18],[.35+(i%3)*.15,.2,.04],i%2?'moss':'stain');}
+ for(let i=0;i<14;i++){const x=((i*7.91+variant*2.31)%w)-w/2;box(shell,[x,.1+(i%4)*.33,d/2+.18],[.35+(i%3)*.15,.2,.04],i%2?'moss':'stain');}
  // Rear rooms open onto a 3.2 m central corridor; no inaccessible decorative upper floors.
  for(const side of [-1,1]){
   const roomWidth=w/2-1.6;
-  box(inside,[side*(1.6+roomWidth/2),2,-2],[roomWidth,4,.18],wall,true);
+  box(inside,[side*(1.6+roomWidth/2),2,split],[roomWidth,4,.18],wall,true);
   for(const z of [-d/2+3,-5])box(inside,[side*1.6,2,z],[.18,4,Math.max(1,(d/2-7)/2)],wall,true);
   // Room floors, skirting and ceiling light fittings.
   box(inside,[side*w/4,.012,-d/4],[w/2-2,.02,d/2-2],kind==='hospital'?'white':'sandDark');
@@ -40,16 +41,16 @@ export function buildingModel(kind:Kind,variant:number){
  const shelf=(x:number,z:number)=>{for(const a of [-.9,.9])box(inside,[x+a,1.1,z],[.08,2.2,.65],'steel',true);for(let k=0;k<4;k++){box(inside,[x,.25+k*.55,z],[1.9,.06,.65],'woodDark');for(let j=0;j<4;j++)box(inside,[x-.65+j*.4,.42+k*.55,z],[.22,.28,.3],(['sand','white','olive','red'] as const)[(j+k+variant)%4]!);}};
  const bed=(x:number,z:number)=>{box(inside,[x,.4,z],[2.1,.35,1.05],'steelLight',true);box(inside,[x,.65,z],[2,.25,1],'white');box(inside,[x-.65,.82,z],[.5,.12,.7],'sandLight');box(inside,[x+.2,.8,z],[1.1,.06,1.02],'oliveLight');box(inside,[x-1.05,.8,z],[.07,1.1,1.1],'steel');box(inside,[x+1.4,.6,z],[.5,1.2,.6],'concreteLight',true);};
  if(kind==='hospital'||kind==='hotel'||kind==='apartment'||kind==='cabin'){
-  for(const side of [-1,1])for(let z=-d/2+4;z<-3;z+=4)bed(side*(w/2-3),z);
+  for(const side of [-1,1])for(let z=-d/2+3.8+(variant%3)*.3;z<split-1.6;z+=3.7+(variant%4)*.25)bed(side*(w/2-3),z);
   table(-w/4,d/4);chair(-w/4,d/4+1);shelf(w/3,-d/2+1);
   if(kind==='hospital'){box(inside,[w/4,1,d/4],[5,2,1.2],'white',true);box(inside,[w/4,2.15,d/4],[5.3,.15,1.4],'steelLight');for(let i=0;i<3;i++)chair(-w/3+i,d/2-3);}
  }else if(kind==='restaurant'){
-  for(const x of [-w/3,w/3])for(const z of [2,7]){table(x,z);chair(x,z+1);chair(x,z-1);box(inside,[x,.94,z],[.3,.08,.3],'white');}
+  for(const x of [-w/3,w/3])for(const z of [3+(variant%3)*.4,7+(variant%2)*.5]){table(x,z);chair(x,z+1);chair(x,z-1);box(inside,[x,.94,z],[.3,.08,.3],'white');}
   box(inside,[-w/4,1,-d/2+1],[w/2-3,2,1.4],'steel',true);
   for(let i=0;i<3;i++){inside.tube([-w/3+i*1.8,2.04,-d/2+1],.3,.05,'black',0,'y',10);}
   shelf(w/3,-d/2+1);box(inside,[w/2-1,1.4,-5],[1.2,2.8,1.2],'white',true);
  }else{
-  for(const side of [-1,1])for(let z=-d/2+3;z<d/2-4;z+=5){
+  for(const side of [-1,1])for(let z=-d/2+3;z<d/2-4;z+=4.6+(variant%4)*.3){
    if(kind==='school'||kind==='office'||kind==='police'){table(side*w/3,z);chair(side*w/3,z+1);box(inside,[side*w/3,1.1,z],[.6,.4,.08],'black');}
    else shelf(side*w/3,z);
   }
@@ -64,7 +65,7 @@ export function buildingModel(kind:Kind,variant:number){
  }
  // Tiled floors, ceiling panels, corridor dado rails and wayfinding plates.
  for(let x=-w/2+1;x<w/2;x+=2)for(let z=-d/2+1;z<d/2;z+=2){
-  box(inside,[x,.022,z],[1.96,.025,1.96],(Math.round(x+z)+variant)%4===0?'concreteLight':'concrete');
+  box(inside,[x,.022,z],[1.96,.025,1.96],(Math.floor(x/(1+variant%2))+Math.floor(z)+variant)%(3+variant%3)===0?(variant%2?'sandLight':'concreteLight'):(variant%3?'concrete':'sandDark'));
   box(inside,[x,4.29,z],[1.96,.06,1.96],'white');
  }
  for(const side of [-1,1]){
@@ -97,7 +98,7 @@ export function buildingModel(kind:Kind,variant:number){
  // Facade panel courses, damaged plaster and open window frames.
  for(const side of [-1,1]){
   for(let y=.5;y<3.4;y+=.65)box(shell,[side*(w/4+1),y,d/2+.17],[w/2-2,.018,.02],'concreteDark');
-  for(let i=0;i<16;i++){const x=side*(2.5+(i*1.79%(w/2-3))),y=.4+(i*.37%2.7);box(shell,[x,y,d/2+.19],[.12+(i%4)*.11,.09,.025],'stain');}
+  for(let i=0;i<16;i++){const x=side*(2.5+((i*1.79+variant*.47)%(w/2-3))),y=.4+((i*.37+variant*.19)%2.7);box(shell,[x,y,d/2+.19],[.12+(i%4)*.11,.09,.025],'stain');}
  }
  // A paved forecourt with bollards, lamp, bench and overgrown planter beds.
  box(shell,[0,-.03,d/2+7],[w+6,.04,11],'asphalt');
@@ -107,6 +108,33 @@ export function buildingModel(kind:Kind,variant:number){
   box(shell,[side*(w/2+1),2.8,d/2+9],[.14,5.6,.14],'steelDark');box(shell,[side*(w/2+.4),5.5,d/2+9],[1.4,.12,.5],'steel');
   for(let i=0;i<3;i++)box(shell,[side*(3+i*2),.5,d/2+1.3],[.17,1,.17],'steel');
  }
+ // Distinct entrance treatments, recessed shop fronts and fixed glazed panels.
+ const accent:Material=(['oliveDark','wood','steel','red','sandDark','steelLight'] as const)[variant%6]!;
+ for(const side of [-1,1]){
+  for(let x=3.5;x<w/2-1.5;x+=3.1+(variant%4)*.35){
+   const xx=side*x;
+   box(shell,[xx,2,d/2+.2],[2.25,2.4,.12],'steelDark');
+   box(shell,[xx,2.05,d/2+.28],[2.02,2.12,.04],(Math.round(x)+variant)%4===0?'woodDark':'lens');
+   box(shell,[xx,.86,d/2+.3],[2.45,.18,.38],accent);
+   box(shell,[xx,2.08,d/2+.32],[.055,2.15,.055],'steelLight');
+   if((Math.round(x)+variant)%3===0){box(shell,[xx,1.9,d/2+.37],[2.15,.14,.06],'woodDark',false);}
+  }
+  box(shell,[side*(w/2-.6),2.2,d/2+.22],[.45,4.4,.45],accent);
+ }
+ // Four visibly different entry canopies, with ribs, lamps and drain pipes.
+ const canopyW=5+(variant%4)*1.1,canopyD=1.2+(variant%3)*.55;
+ box(shell,[entry,3.15,d/2+canopyD/2],[canopyW,.16,canopyD],accent);
+ for(let x=-canopyW/2+.3;x<canopyW/2;x+=.55)box(shell,[entry+x,3.04,d/2+canopyD/2],[.055,.12,canopyD],'steelDark');
+ for(const side of [-1,1]){box(shell,[entry+side*2.3,2.7,d/2+.25],[.25,.35,.18],'steel');box(shell,[entry+side*2.3,2.65,d/2+.35],[.18,.2,.04],'sandLight');}
+ for(const side of [-1,1]){box(shell,[side*(w/2+.18),2.1,-d/2+.7],[.13,4.2,.13],'rust');box(shell,[side*(w/2+.28),.2,-d/2+.7],[.4,.13,.13],'rust');}
+ // Switches, wall skirting, cables, sockets and scattered desk objects.
+ for(const side of [-1,1]){
+  box(inside,[side*(w/2-.18),1.2,d/3],[.08,.3,.22],'white');
+  for(let z=-d/2+2;z<d/2-2;z+=4.8){box(inside,[side*(w/2-.18),.3,z],[.04,.14,.22],'white');box(inside,[side*(w/2-.2),.31,z],[.02,.04,.08],'black');}
+  for(let z=-d/2+3;z<split-1;z+=4.7){box(inside,[side*(w/2-2),.08,z],[.42,.16,.58],'woodDark');box(inside,[side*(w/2-2),.17,z],[.4,.02,.5],'sandLight');}
+ }
+ // Fine mortar courses and chipped masonry concentrate at the building base.
+ for(const side of [-1,1])for(let y=.15;y<.8;y+=.18)for(let x=2.8+(Math.round(y*100)%2)*.3;x<w/2-1;x+=.62){box(shell,[side*x,y,d/2+.39],[.58,.15,.045],(Math.round(x*10)+variant)%5?'sandDark':'rust');}
  // Deterministic litter and wear, kept out of the entry/corridor.
  for(let i=0;i<24;i++){const x=(i%2?1:-1)*(3+(i*1.71%(w/2-5))),z=-d/2+2+(i*3.13%(d-4));box(inside,[x,.035,z],[.25,.03,.38],i%3?'dust':'white');}
  return {shell:shell.mesh(),inside:inside.mesh(),solids};

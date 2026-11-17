@@ -7,3 +7,4 @@ artifacts/
 .game-builder/covers/
 .game-builder/artifacts/
 .game-builder/reference/
+exports/
