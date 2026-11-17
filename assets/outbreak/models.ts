@@ -22,6 +22,23 @@ export function buildingModel(kind:Kind,variant:number){
  box(shell,[0,h+.12,0],[w+.5,.24,d+.5],'concreteDark',true);
  box(shell,[0,3.7,d/2+.25],[Math.min(w-2,16),.7,.16],kind==='hospital'?'red':kind==='restaurant'?'wood':kind==='mall'?'steel':'oliveDark');
  if(kind==='hospital'){box(shell,[0,3.72,d/2+.35],[.18,.55,.04],'white');box(shell,[0,3.72,d/2+.35],[.55,.18,.04],'white');}
+ // Roadside wrecks stay away from the central entrance and pedestrian corridor.
+ if(kind!=='cabin'&&variant%3===0){
+  const cx=w/2+5,cz=0;
+  box(shell,[cx,.52,cz],[2.1,.55,4.3],'rust');
+  box(shell,[cx,.9,cz-1.45],[2,.35,1.3],'concreteDark');
+  box(shell,[cx,1.18,cz+.1],[1.8,.8,1.9],'steelDark');
+  box(shell,[cx,1.6,cz+.1],[1.9,.12,2],'rust');
+  box(shell,[cx,1.24,cz+1.07],[1.5,.45,.04],'groove');
+  for(const side of [-1,1]){
+   box(shell,[cx+side*1.03,.38,cz-1.3],[.32,.65,.7],'groove');
+   box(shell,[cx+side*1.03,.32,cz+1.3],[.32,.5,.7],'groove');
+   box(shell,[cx+side*.99,1.2,cz],[.06,.45,1.55],'groove');
+   box(shell,[cx+side*.7,.64,cz+2.17],[.35,.18,.05],'sandDark');
+  }
+  box(shell,[cx,.55,cz+2.25],[2.2,.15,.15],'steelDark');
+  for(let i=0;i<7;i++)box(shell,[cx-1.6+(i%3)*.6,.08,cz-2.4+i*.65],[.3,.16,.45],i%2?'rust':'concreteDark');
+ }
  // Pavement, parapet, gutters, rooftop vents, boarded windows and climbing growth.
  box(shell,[0,-.08,d/2+1.5],[w+3,.16,3],'concreteLight');
  for(const side of [-1,1])box(shell,[side*(w/2-.15),4.65,0],[.25,.8,d],'concreteDark');
