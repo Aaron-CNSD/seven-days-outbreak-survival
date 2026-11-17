@@ -118,7 +118,7 @@ export function buildingModel(kind:Kind,variant:number){
   for(let i=0;i<16;i++){const x=side*(2.5+((i*1.79+variant*.47)%(w/2-3))),y=.4+((i*.37+variant*.19)%2.7);box(shell,[x,y,d/2+.19],[.12+(i%4)*.11,.09,.025],'stain');}
  }
  // A paved forecourt with bollards, lamp, bench and overgrown planter beds.
- box(shell,[0,-.03,d/2+7],[w+6,.04,11],'asphalt');
+ box(shell,[0,-.065,d/2+4],[w+4,.04,5],'concreteDark');
  for(const side of [-1,1]){
   box(shell,[side*(w/2+2),.35,d/2+2],[1.5,.7,3],'concreteDark',true);
   for(let j=0;j<3;j++)shell.ellipsoid([side*(w/2+2),.8,d/2+1+j],[.8,.6,.7],'oliveDark',5,3);
@@ -160,19 +160,30 @@ export function landscape(){const m=new VoxelMesh(WEAPON_NAMESPACE);
  m.box([-975,-.3,0],[4050,.5,5000],'oliveDark');m.box([1650,-.3,0],[1200,.5,5000],'olive');m.box([2335,-.3,0],[170,.5,5000],'sandLight');m.box([7420,-.2,0],[10000,.2,15000],'lensLight');
  for(let z=-2500;z<2500;z+=9){m.box([2420+Math.sin(z*.07)*3,-.085,z],[2.4,.02,6],'white');for(let k=0;k<3;k++)m.box([2440+k*24+Math.sin(z)*8,-.085,z+k*4],[7,.025,.15],'lens');}
  for(let i=0;i<140;i++){const z=-2450+i*35; m.ellipsoid([2290+Math.sin(i*6.7)*22,.3,z],[1.4,.6,1],'sandDark',5,3);}
- // Dense block streets: narrow lanes between lots and wider avenues every four blocks.
- for(let column=0;column<40;column++){
-  const x=cityX(column)+32;
-  m.box([x,-.025,-385],[column%4===3?26:9,.04,3300],'asphalt');
-  for(let z=-2000;z<1250;z+=16)m.box([x,.004,z],[.12,.012,5],'sandLight');
- }
+ // Non-overlapping road grid: horizontal avenues own intersections.
+ const roadXs=Array.from({length:40},(_,i)=>cityX(i)+32+(i%4===3?9:0));
+ const roadZs=Array.from({length:40},(_,i)=>cityZ(i)+38+(i%4===3?9:0));
+ const width=(i:number)=>i%4===3?22:10;
  for(let row=0;row<40;row++){
-  const z=cityZ(row)+38;
-  m.box([-1050,-.02,z],[2800,.04,row%4===3?26:12],'asphalt');
-  for(let x=-2400;x<320;x+=16)m.box([x,.006,z],[5,.012,.12],'sandLight');
+  const z=roadZs[row]!,rw=width(row);
+  m.box([-1050,-.025,z],[2800,.04,rw],'asphalt');
+  for(const side of [-1,1])m.box([-1050,.015,z+side*(rw/2+1)],[2800,.12,2],'concreteLight');
+  for(let x=-2400;x<320;x+=12)if(!roadXs.some((rx,i)=>Math.abs(x-rx)<width(i)/2+5))m.box([x,.002,z],[4,.008,.14],'sandLight');
+ }
+ for(let col=0;col<40;col++){
+  const x=roadXs[col]!,cw=width(col);
+  for(let row=0;row<39;row++){
+   const a=roadZs[row]!+width(row)/2,b=roadZs[row+1]!-width(row+1)/2,mid=(a+b)/2;
+   m.box([x,-.025,mid],[cw,.04,b-a],'asphalt');
+   for(const side of [-1,1])m.box([x+side*(cw/2+1),.015,mid],[2,.12,b-a],'concreteLight');
+   for(let z=a+8;z<b-5;z+=12)m.box([x,.002,z],[.14,.008,4],'sandLight');
+   if(col%4===3&&row%4===3)for(const end of [a+2,b-2])for(let stripe=-cw/2+1;stripe<cw/2;stripe+=1.4)m.box([x+stripe,.004,end],[.65,.008,3],'white');
+  }
  }
  m.box([1700,-.02,0],[9,.04,5000],'sandDark');m.box([0,-.02,20],[4700,.04,10],'asphalt');
  // Weathered wooden pier extends over the water.
  for(let i=0;i<75;i++)m.box([2380+i*1.4,.15,0],[1.3,.25,5],'woodDark');
+ // World-space planar UVs prevent kilometre-long surfaces stretching one texture.
+ for(let i=0;i<m.positions.length/3;i++)if(Math.abs(m.normals[i*3+1]!)>.9){m.uvs[i*2]=m.positions[i*3]!/4;m.uvs[i*2+1]=m.positions[i*3+2]!/4;}
  return m.mesh();}
 export function treeModel(){const m=new VoxelMesh(WEAPON_NAMESPACE);m.tube([0,3,0],.3,6,'woodDark',0,'y',7);for(let j=0;j<3;j++)m.ellipsoid([Math.sin(j*2)*2,.35,Math.cos(j*2)*2],[.8,.6,.8],'oliveDark',5,3);for(let i=0;i<4;i++)m.ellipsoid([Math.sin(i*2)*1.1,5.5+i*.9,Math.cos(i*2)*.8],[2.5-i*.35,1.8,2.5-i*.35],i%2?'olive':'oliveDark',6,4);return m.mesh();}

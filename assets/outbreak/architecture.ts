@@ -56,3 +56,16 @@ export function buildingParts(b:Building):ArchitecturalPart[]{
 }
 /** Ignores identity and world position; checks geometry combinations themselves. */
 export function designSignature(b:Building){return JSON.stringify({kind:b.kind,variant:b.variant,roof:roofStyle(b),facade:facadeStyle(b),equipment:equipmentStyle(b),floors:towerFloors(b)});}
+/** Shared low-detail skyline: preserves storeys and window rhythm without balconies or fittings. */
+export function distantBuildingModel(variant:number){
+ const m=new VoxelMesh(WEAPON_NAMESPACE);
+ const wall=(['concreteLight','sandLight','steelDark','white','rust','sand','concrete','oliveDark','steel','woodDark','sandDark','concreteDark'] as const)[variant%12]!;
+ m.box([0,.5,0],[1,1,1],wall);
+ for(const side of [-1,1])for(let floor=0;floor<12;floor++){
+  const y=(floor+.5)/12;
+  m.box([0,y,side*.502],[.9,.035,.002],'lens');
+  m.box([side*.502,y,0],[.002,.035,.9],'lens');
+ }
+ m.box([0,1.005,0],[1.02,.01,1.02],'concreteDark');
+ return m.mesh();
+}
