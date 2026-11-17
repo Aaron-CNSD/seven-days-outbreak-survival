@@ -5,8 +5,8 @@ export type Kind=typeof KINDS[number];
 export const LABELS=['废弃医院','废弃餐厅','废弃商场','居民楼','药房','学校','仓库','修车厂','办公楼','警署','林间木屋','海岸旅馆'];
 export type Building={id:number;x:number;z:number;kind:Kind;variant:number};
 export const CITY_COLUMNS=40,CITY_ROWS=40;
-export const cityX=(column:number)=>-2380+column*64+Math.floor(column/4)*18;
-export const cityZ=(row:number)=>-1950+row*76+Math.floor(row/4)*18;
+export const cityX=(column:number)=>-2380+column*72+Math.floor(column/4)*18;
+export const cityZ=(row:number)=>-1950+row*84+Math.floor(row/4)*18;
 const cityKind=(id:number):Kind=>id===1?'restaurant':id===2?'mall':id%80===0?'hospital':id%47===0?'mall':id%31===0?'school':id%43===0?'police':id%13===0?'garage':id%17===0?'warehouse':id%9===0?'pharmacy':id%7===0?'restaurant':id%3===0?'office':'apartment';
 export const BUILDINGS:Building[]=Array.from({length:1660},(_,id)=>{
  if(id<1600)return {id,x:cityX(id%40),z:cityZ(Math.floor(id/40)),kind:cityKind(id),variant:Math.floor(id/3)%3};

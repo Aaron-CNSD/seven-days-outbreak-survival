@@ -62,10 +62,11 @@ export const outbreak:Plugin={name:'outbreak/world',inject:['world','assets','ga
    for(const [id,es] of colliders)if(Math.hypot(BUILDINGS[id]!.x-x,BUILDINGS[id]!.z-z)>95){remove(es);colliders.delete(id);}
    for(const b of wanted){const key=b.kind+'-'+b.variant,dist=Math.hypot(b.x-x,b.z-z);
     if(dist<90&&b.kind!=='cabin'&&!streets.has(b.id)){const [w,d]=buildingDimensions(b);streets.set(b.id,[mesh('street-'+b.id%4,[b.x,0,b.z],[w/20,1,d/20])]);}
-    const detailed=dist<(detailLevels.get(b.id)?125:100);
+    const detailed=dist<(detailLevels.get(b.id)?85:65);
     if(shells.has(b.id)&&detailLevels.get(b.id)!==detailed){remove(shells.get(b.id)!);shells.delete(b.id);}
     if(!shells.has(b.id)){const [w,d]=buildingDimensions(b);shells.set(b.id,detailed?buildingParts(b).map(part=>mesh(part.key,part.p,part.scale)):[mesh('distant-'+b.variant,[b.x,0,b.z],[w,towerFloors(b)*4.8,d])]);detailLevels.set(b.id,detailed);}
-    if(dist<55&&!interiors.has(b.id))interiors.set(b.id,[mesh(key+'-inside',[b.x,0,b.z],buildingScale(b)),light([b.x,3.4,b.z+buildingDimensions(b)[1]/4]),light([b.x,3.4,b.z-buildingDimensions(b)[1]/4])]);
+    const [bw,bd]=buildingDimensions(b);
+    if(Math.abs(x-b.x)<bw/2+8&&Math.abs(z-b.z)<bd/2+8&&!interiors.has(b.id))interiors.set(b.id,[mesh(key+'-inside',[b.x,0,b.z],buildingScale(b))]);
     if(dist<80&&!colliders.has(b.id))colliders.set(b.id,shapes.get(key)!.map(box=>{const s=buildingScale(b);return solid([b.x+box.p[0]*s[0],box.p[1],b.z+box.p[2]*s[2]],[box.s[0]*s[0],box.s[1],box.s[2]*s[2]]);}));
    }
    if(Math.hypot(x-PARK.x,z-PARK.z)<650)spawnPark();else if(parkEntities.length){remove(parkEntities);parkEntities=[];cabins=[];wheel=undefined;car=undefined;}

@@ -1,4 +1,18 @@
 <div class="shell">
+<section class="home-menu" data-part="home-menu" aria-label="首页">
+ <div class="menu-shade" aria-hidden="true"></div>
+ <header class="home-title"><span>Seven-day survival</span><strong>七日生存</strong></header>
+ <button class="home-exit" data-part="home-exit" aria-label="退出菜单">×</button>
+ <nav class="home-actions"><button data-part="home-play">开始游戏 <span>01 ↗</span></button><button data-part="start" aria-label="进入训练场">训练场 <span>02 ↗</span></button><button data-part="home-options">选项 <span>03 ↗</span></button></nav>
+ <p class="home-note" data-part="home-note">七日之后，留下你的故事。</p>
+</section>
+<section class="mode-menu" data-part="mode-menu" aria-label="选择模式" hidden>
+ <button class="menu-back" data-part="mode-back">← 返回首页</button><h1>LET’S SURVIVE.</h1><p>选择你的生存方式</p>
+ <div class="mode-choices"><button data-mode="hold" aria-pressed="true"><small>01 / HOLD THE LINE</small><strong>坚守</strong><span>守住阵地，等待黎明</span></button><button data-mode="survive" aria-pressed="false"><small>02 / INTO THE UNKNOWN</small><strong>生存</strong><span>走进废土，寻找生机</span></button></div>
+ <p class="mode-notice" data-part="mode-notice" role="status">模式玩法筹备中 · 当前可从首页进入训练场</p><button class="mode-go" data-part="mode-go">GO ↗</button>
+</section>
+<section class="exit-menu" data-part="exit-menu" hidden><h2>暂别废土</h2><p>关闭浏览器标签页即可退出游戏。</p><button data-part="exit-back">返回首页</button></section>
+
 <button class="world-launch" data-part="world-map-open">M · 区域地图</button>
 <div class="lift-controls" data-part="lift-controls" hidden><span data-part="lift-status"></span><button data-part="lift-up">G 上楼</button><button data-part="lift-down">H 下楼</button></div><div class="world-location" data-part="world-location">废弃城区 · 出发点</div>
 <section class="world-map" data-part="world-map" hidden role="dialog" aria-label="区域地图">
@@ -11,9 +25,14 @@
     <div class="map-field"><i class="map-target t10"></i><i class="map-target t20"></i><i class="map-target t30"></i><i class="map-target t40"></i><span data-part="map-player">▲</span></div>
   </aside>
 <button class="settings-launch" data-part="settings-open">设置</button>
-<section class="settings-panel" data-part="settings-panel" hidden><h2>游戏设置</h2><label>音效音量 <input data-part="volume" type="range" min="0" max="100" value="70"></label><label><input data-part="bob" type="checkbox" checked> 手持武器呼吸与移动晃动</label><p>按住 Shift 蹲下 · 双击并按住 W 冲刺 · 冲刺时按住 Shift 滑铲<br>E 背包 · 按住 Q / C 左右探头 · F 检视 · 1–6 切换装备<br>5 / 6 选投掷物，右键或长按开火投掷</p><button data-part="settings-close">保存并返回</button></section>
+<section class="settings-panel" data-part="settings-panel" hidden aria-label="选项">
+<button class="menu-back" data-part="settings-close">← 保存并返回</button><h2>选项 <small>OPTIONS</small></h2>
+<label class="volume-label">音量 <output data-part="volume-value">70%</output><input data-part="volume" aria-label="音量" type="range" min="0" max="100" value="70"></label>
+<div class="options-grid"><fieldset><h3>帧率</h3><div class="option-pills"><button data-fps="30" aria-pressed="false">30</button><button data-fps="60" aria-pressed="true">60</button></div></fieldset><fieldset><h3>画质</h3><div class="option-pills quality-pills"><button data-quality="smooth" aria-pressed="true"><i>▱</i>流畅</button><button data-quality="high" aria-pressed="false"><i>▧</i>高</button></div></fieldset></div>
+<label class="bob-label"><input data-part="bob" type="checkbox" checked> 武器呼吸与移动晃动</label><p class="options-note">帧率、画质暂保存为菜单偏好，尚未接入渲染设置。</p>
+</section>
   <header class="topbar"><div class="brand"><i></i><span>FIELD / 08<small>遗落海岸 · OPEN WORLD</small></span></div><span class="build-tag">天工引擎 / 01</span></header>
-  <section class="intro" data-part="intro"><span class="eyebrow">ARMOURY  /  武器档案</span><h1 data-part="catalog-name">AK-47</h1><p class="dossier" data-part="dossier"></p><div class="specs"><span>供弹 <b data-part="capacity">30</b></span><span>装填 <b data-part="timing">2.30 s</b></span></div><button data-part="start" class="start">进入训练场 <span>↗</span></button><small class="intro-hint">训练场右侧出口通往城区 · M 打开 30 km² 区域地图</small></section>
+  <section class="intro" data-part="intro"><span class="eyebrow">ARMOURY  /  武器档案</span><h1 data-part="catalog-name">AK-47</h1><p class="dossier" data-part="dossier"></p><div class="specs"><span>供弹 <b data-part="capacity">30</b></span><span>装填 <b data-part="timing">2.30 s</b></span></div><small class="intro-hint">训练场右侧出口通往城区 · M 打开 30 km² 区域地图</small></section>
   <div class="status" data-part="status">点击画面，锁定鼠标开始操作</div>
   <div class="hit-feedback" data-part="hit-feedback"></div><div class="range-stats"><span>RANGE / 射击训练</span><strong data-part="hit-count">命中 0 · 头部 0</strong><small data-part="hit-result">向前方靶位射击</small></div>
   <div class="reticle" data-part="reticle"><b></b><i></i></div>

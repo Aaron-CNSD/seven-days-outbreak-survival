@@ -21,6 +21,11 @@ export function streetModel(style:number){
    const rx=x-1.5+(i*7%11)*.3,rz=z+3+(i*5%7)*.22;
    m.box([rx,.09+(i%3)*.06,rz],[.2+(i%3)*.13,.18,.35],i%3?'concreteDark':'rust',0,i*.7);
   }
+  // Recessed storm-drain grate and broken curb stones are actual geometry.
+  m.box([x,.025,z+5.2],[1.3,.05,.65],'groove');
+  for(let j=0;j<7;j++)m.box([x-.55+j*.18,.075,z+5.2],[.065,.10,.6],'steelDark');
+  for(let j=0;j<4;j++)m.box([x-1.4+j*.85,.14,z+6],[.7,.28,.35],'concreteLight',0,j===2?.22:0,j===2?.12:0);
+  m.box([x+.5,.09,z+6.5],[.55,.18,.42],'concreteDark',0,.6);
   // Dry weed clumps, no transparent foliage or additional lights.
   for(let i=0;i<4;i++){const wx=x-1.5+i, wz=z+4.5;
    m.box([wx,.2,wz],[.035,.4,.22],'sandDark',0,0,.25);

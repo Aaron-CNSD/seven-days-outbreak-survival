@@ -38,8 +38,23 @@ export async function createGuideUi(asset:UiAsset,host:Pick<GameHost,'uiRoot'|'c
  };
  const settings=(open:boolean)=>{node('settings-panel').hidden=!open;send({kind:'settings',open,bob:(node('bob') as HTMLInputElement).checked});if(open)document.exitPointerLock?.();};
  listen(node('settings-open'),'click',()=>settings(true));listen(node('settings-close'),'click',()=>settings(false));
- listen(node('volume'),'input',()=>{volume=Number((node('volume') as HTMLInputElement).value)/100;});
- listen(node('start'),'click',()=>{started=true;ui.host.classList.add('started');try{audio??=new AudioContext();void audio.resume();}catch{}send({kind:'start'});mode();});
+ listen(node('volume'),'input',()=>{volume=Number((node('volume') as HTMLInputElement).value)/100;text('volume-value',Math.round(volume*100)+'%');savePreferences();});
+ listen(node('start'),'click',()=>{started=true;ui.host.classList.add('started');node('home-menu').hidden=true;try{audio??=new AudioContext();void audio.resume();}catch{}send({kind:'start'});mode();});
+
+ let chosenMode='hold',fps='60',quality='smooth';
+ const savePreferences=()=>{try{localStorage.setItem('seven-days-menu',JSON.stringify({volume,fps,quality,bob:(node('bob') as HTMLInputElement).checked}));}catch{}};
+ const syncPreferences=()=>{(node('volume') as HTMLInputElement).value=String(Math.round(volume*100));text('volume-value',Math.round(volume*100)+'%');root.querySelectorAll<HTMLElement>('[data-fps]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fps===fps)));root.querySelectorAll<HTMLElement>('[data-quality]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.quality===quality)));};
+ try{const p=JSON.parse(localStorage.getItem('seven-days-menu')??'{}');if(typeof p.volume==='number'&&Number.isFinite(p.volume))volume=Math.max(0,Math.min(1,p.volume));if(['30','60'].includes(p.fps))fps=p.fps;if(['smooth','high'].includes(p.quality))quality=p.quality;if(typeof p.bob==='boolean')(node('bob') as HTMLInputElement).checked=p.bob;}catch{}syncPreferences();
+ listen(node('bob'),'change',savePreferences);
+ listen(node('home-options'),'click',()=>settings(true));
+ listen(node('home-play'),'click',()=>{node('home-menu').hidden=true;node('mode-menu').hidden=false;});
+ listen(node('mode-back'),'click',()=>{node('mode-menu').hidden=true;node('home-menu').hidden=false;});
+ listen(node('home-exit'),'click',()=>{node('home-menu').hidden=true;node('exit-menu').hidden=false;});
+ listen(node('exit-back'),'click',()=>{node('exit-menu').hidden=true;node('home-menu').hidden=false;});
+ root.querySelectorAll<HTMLElement>('[data-mode]').forEach(b=>listen(b,'click',()=>{chosenMode=b.dataset.mode!;root.querySelectorAll<HTMLElement>('[data-mode]').forEach(c=>c.setAttribute('aria-pressed',String(c===b)));text('mode-notice',(chosenMode==='hold'?'坚守':'生存')+'模式 · 玩法筹备中');}));
+ listen(node('mode-go'),'click',()=>text('mode-notice',(chosenMode==='hold'?'坚守':'生存')+'玩法尚未开放，请返回首页进入训练场。'));
+ root.querySelectorAll<HTMLElement>('[data-fps]').forEach(b=>listen(b,'click',()=>{fps=b.dataset.fps!;syncPreferences();savePreferences();}));
+ root.querySelectorAll<HTMLElement>('[data-quality]').forEach(b=>listen(b,'click',()=>{quality=b.dataset.quality!;syncPreferences();savePreferences();}));
  root.querySelectorAll<HTMLElement>('[data-weapon]').forEach(button=>listen(button,'click',()=>{aim=false;send({kind:'select',index:Number(button.dataset.weapon)});}));
  const attachmentLabels=['补偿器','快换弹匣','瞄具'];
  const attachmentEffects=['后坐 −24%','换弹时间 −24%','提高瞄准倍率'];

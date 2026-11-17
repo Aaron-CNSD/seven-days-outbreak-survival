@@ -161,21 +161,21 @@ export function landscape(){const m=new VoxelMesh(WEAPON_NAMESPACE);
  for(let z=-2500;z<2500;z+=9){m.box([2420+Math.sin(z*.07)*3,-.085,z],[2.4,.02,6],'white');for(let k=0;k<3;k++)m.box([2440+k*24+Math.sin(z)*8,-.085,z+k*4],[7,.025,.15],'lens');}
  for(let i=0;i<140;i++){const z=-2450+i*35; m.ellipsoid([2290+Math.sin(i*6.7)*22,.3,z],[1.4,.6,1],'sandDark',5,3);}
  // Non-overlapping road grid: horizontal avenues own intersections.
- const roadXs=Array.from({length:40},(_,i)=>cityX(i)+32+(i%4===3?9:0));
- const roadZs=Array.from({length:40},(_,i)=>cityZ(i)+38+(i%4===3?9:0));
- const width=(i:number)=>i%4===3?22:10;
+ const roadXs=Array.from({length:40},(_,i)=>cityX(i)+36+(i%4===3?9:0));
+ const roadZs=Array.from({length:40},(_,i)=>cityZ(i)+42+(i%4===3?9:0));
+ const width=(i:number)=>i%4===3?18:10;
  for(let row=0;row<40;row++){
   const z=roadZs[row]!,rw=width(row);
-  m.box([-1050,-.025,z],[2800,.04,rw],'asphalt');
-  for(const side of [-1,1])m.box([-1050,.015,z+side*(rw/2+1)],[2800,.12,2],'concreteLight');
-  for(let x=-2400;x<320;x+=12)if(!roadXs.some((rx,i)=>Math.abs(x-rx)<width(i)/2+5))m.box([x,.002,z],[4,.008,.14],'sandLight');
+  m.box([-900,-.025,z],[3100,.04,rw],'asphalt');
+  for(const side of [-1,1])m.box([-900,.055,z+side*(rw/2+1)],[3100,.20,2],'concreteLight');
+  for(let x=-2400;x<640;x+=12)if(!roadXs.some((rx,i)=>Math.abs(x-rx)<width(i)/2+5))m.box([x,.002,z],[4,.008,.14],'sandLight');
  }
  for(let col=0;col<40;col++){
   const x=roadXs[col]!,cw=width(col);
   for(let row=0;row<39;row++){
    const a=roadZs[row]!+width(row)/2,b=roadZs[row+1]!-width(row+1)/2,mid=(a+b)/2;
    m.box([x,-.025,mid],[cw,.04,b-a],'asphalt');
-   for(const side of [-1,1])m.box([x+side*(cw/2+1),.015,mid],[2,.12,b-a],'concreteLight');
+   for(const side of [-1,1])m.box([x+side*(cw/2+1),.055,mid],[2,.20,b-a],'concreteLight');
    for(let z=a+8;z<b-5;z+=12)m.box([x,.002,z],[.14,.008,4],'sandLight');
    if(col%4===3&&row%4===3)for(const end of [a+2,b-2])for(let stripe=-cw/2+1;stripe<cw/2;stripe+=1.4)m.box([x+stripe,.004,end],[.65,.008,3],'white');
   }
