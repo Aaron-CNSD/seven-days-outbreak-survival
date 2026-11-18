@@ -3,8 +3,8 @@
  <div class="menu-shade" aria-hidden="true"></div>
  <header class="home-title"><span>Seven-day survival</span><strong>七日生存</strong></header>
  <button class="home-exit" data-part="home-exit" aria-label="退出菜单">×</button>
- <nav class="home-actions"><button data-part="home-play">开始游戏 <span>01 ↗</span></button><button data-part="start" aria-label="进入训练场">训练场 <span>02 ↗</span></button><button data-part="home-options">选项 <span>03 ↗</span></button></nav>
- <p class="home-note" data-part="home-note">七日之后，留下你的故事。</p>
+ <nav class="home-actions"><button data-part="home-play">开始游戏 <span>↗</span></button><button data-part="start" aria-label="进入训练场">训练场 <span>↗</span></button><button data-part="home-options">选项 <span>↗</span></button></nav>
+
 </section>
 <section class="mode-menu" data-part="mode-menu" aria-label="选择模式" hidden>
  <button class="menu-back" data-part="mode-back">← 返回首页</button><h1>LET’S SURVIVE.</h1><p>选择你的生存方式</p>
@@ -29,7 +29,7 @@
 <button class="menu-back" data-part="settings-close">← 保存并返回</button><h2>选项 <small>OPTIONS</small></h2>
 <label class="volume-label">音量 <output data-part="volume-value">70%</output><input data-part="volume" aria-label="音量" type="range" min="0" max="100" value="70"></label>
 <div class="options-grid"><fieldset><h3>帧率</h3><div class="option-pills"><button data-fps="30" aria-pressed="false">30</button><button data-fps="60" aria-pressed="true">60</button></div></fieldset><fieldset><h3>画质</h3><div class="option-pills quality-pills"><button data-quality="smooth" aria-pressed="true"><i>▱</i>流畅</button><button data-quality="high" aria-pressed="false"><i>▧</i>高</button></div></fieldset></div>
-<label class="bob-label"><input data-part="bob" type="checkbox" checked> 武器呼吸与移动晃动</label><p class="options-note">帧率、画质暂保存为菜单偏好，尚未接入渲染设置。</p>
+<section class="key-section"><h3>按键绑定</h3><div class="binding-grid" data-part="bindings"></div><button data-part="reset-keys">恢复默认键位</button><p data-part="bind-status" role="status">点选操作，再按新键</p></section><label class="bob-label"><input data-part="bob" type="checkbox" checked> 武器呼吸与移动晃动</label><p class="options-note">帧率、画质暂保存为菜单偏好，尚未接入渲染设置。</p>
 </section>
   <header class="topbar"><div class="brand"><i></i><span>FIELD / 08<small>遗落海岸 · OPEN WORLD</small></span></div><span class="build-tag">天工引擎 / 01</span></header>
   <section class="intro" data-part="intro"><span class="eyebrow">ARMOURY  /  武器档案</span><h1 data-part="catalog-name">AK-47</h1><p class="dossier" data-part="dossier"></p><div class="specs"><span>供弹 <b data-part="capacity">30</b></span><span>装填 <b data-part="timing">2.30 s</b></span></div><small class="intro-hint">训练场右侧出口通往城区 · M 打开 30 km² 区域地图</small></section>

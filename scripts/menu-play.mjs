@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 export default async function(play){
  await play.advance(.3,{read:'pulse.game'});await play.screenshot('home-stepped-buttons-and-shadow');
  await play.page.getByRole('button',{name:'选项',exact:false}).click();
+ await play.page.getByRole('button',{name:'背包　E',exact:true}).click();
+ await play.page.keyboard.press('KeyJ');
  await play.page.getByRole('button',{name:'30',exact:true}).click();
  await play.page.getByRole('button',{name:'高',exact:false}).click();
  await play.advance(.3,{read:'pulse.game'});await play.screenshot('options-volume-fps-quality');
@@ -15,5 +17,9 @@ export default async function(play){
  await play.page.getByRole('button',{name:'返回首页',exact:true}).click();
  await play.page.getByRole('button',{name:'进入训练场',exact:true}).click();
  await play.advance(1,{read:'pulse.game'});assert.equal((await play.state('pulse.game')).phase,'playing');await play.advance(.3,{read:'pulse.game'});await play.screenshot('training-entry');
+ await play.page.keyboard.press('KeyJ');
+ await play.waitFor(s=>s.rackOpen,{read:'pulse.game'});
+ await play.page.keyboard.press('KeyJ');
+ await play.waitFor(s=>!s.rackOpen,{read:'pulse.game'});
  await play.reload();await play.advance(.3,{read:'pulse.game'});await play.screenshot('home-after-reload');
 }

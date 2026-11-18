@@ -1,3 +1,4 @@
+import { actions, allowedKey, bindingLabels, defaultBindings, restoreBindings, type BoundAction } from './key-bindings.ts';
 import type { GameHost } from '@forgeax/engine/app';
 import { mountUi, type UiAsset, type UiInstance } from '@forgeax/engine/ui';
 import { installPlayerControls } from './player-controls.ts';
@@ -17,11 +18,48 @@ export async function createGuideUi(asset:UiAsset,host:Pick<GameHost,'uiRoot'|'c
  let started=false,touch=false,aim=false,flashTimer:ReturnType<typeof setTimeout>|undefined,audio:AudioContext|undefined;
  const mode=()=>{touch=(host.controlMode?.read()==='touch');ui.host.classList.toggle('touch',touch);ui.host.classList.toggle('locked',host.controlMode?.read()==='pointer-locked');controls?.setEnabled(started&&touch);send({kind:'mode',touch});};
  const listen=(target:EventTarget,name:string,fn:EventListener)=>{target.addEventListener(name,fn);releases.push(()=>target.removeEventListener(name,fn));};
+ let bindings={...defaultBindings};
+ try { bindings=restoreBindings(JSON.parse(localStorage.getItem('seven-days-keys')??'null')); } catch {}
+ let pendingKey:BoundAction|null=null;
+ const drawKeys=()=>{
+   const list=node('bindings');
+   list.replaceChildren();
+   for(const action of actions){
+     const button=document.createElement('button');
+     button.textContent=bindingLabels[action]+'　'+(pendingKey===action?'…':bindings[action].slice(3));
+     button.onclick=()=>{pendingKey=action;drawKeys();text('bind-status','按字母键绑定，Esc 取消');};
+     list.append(button);
+   }
+   node('world-map-open').textContent=bindings.map.slice(3)+' · 区域地图';
+   node('inspect').textContent=bindings.inspect.slice(3)+' · 检视武器 ↗';
+   for(const action of ['rack','round','plate','medkit'] as const){
+     root.querySelectorAll<HTMLElement>('.tactical-actions [data-action='+action+']').forEach(b=>b.textContent=bindings[action].slice(3)+' '+bindingLabels[action]);
+   }
+   root.querySelectorAll<HTMLElement>('.desktop-help span').forEach(el=>{
+     const action=actions.find(a=>el.textContent?.endsWith(bindingLabels[a]));
+     const key=el.querySelector('b');if(action&&key)key.textContent=bindings[action].slice(3);
+   });
+ };
+ const publishKeys=()=>{send({kind:'bindings',bindings});drawKeys();};
+ const persistKeys=()=>{try{localStorage.setItem('seven-days-keys',JSON.stringify(bindings));}catch{}publishKeys();};
+ const captureKey=(event:KeyboardEvent)=>{
+   if(!pendingKey||node('settings-panel').hidden)return;
+   event.preventDefault();event.stopImmediatePropagation();
+   if(event.repeat)return;
+   if(event.code==='Escape'){pendingKey=null;text('bind-status','已取消');drawKeys();return;}
+   if(!allowedKey(event.code)||event.metaKey||event.ctrlKey||event.altKey){text('bind-status','请选择未保留的字母键');return;}
+   if(actions.some(a=>a!==pendingKey&&bindings[a]===event.code)){text('bind-status','该键已绑定其他操作');return;}
+   bindings[pendingKey]=event.code;pendingKey=null;text('bind-status','已保存');persistKeys();
+ };
+ document.addEventListener('keydown',captureKey,true);
+ releases.push(()=>document.removeEventListener('keydown',captureKey,true));
+ listen(node('reset-keys'),'click',()=>{bindings={...defaultBindings};pendingKey=null;persistKeys();text('bind-status','已恢复默认键位');});
+ publishKeys();
  let mapOpen=false;
  const toggleMap=(open:boolean)=>{mapOpen=open;node('world-map').hidden=!open;send({kind:'settings',open,bob:(node('bob') as HTMLInputElement).checked});if(open)document.exitPointerLock?.();};
  listen(node('lift-up'),'click',()=>port?.postMessage({channel:'outbreak/world',kind:'lift',direction:1}));listen(node('lift-down'),'click',()=>port?.postMessage({channel:'outbreak/world',kind:'lift',direction:-1}));
  listen(node('world-map-open'),'click',()=>toggleMap(true));listen(node('world-map-close'),'click',()=>toggleMap(false));
- listen(document,'keydown',event=>{const e=event as KeyboardEvent;if(e.code==='KeyM'&&!e.repeat){e.preventDefault();toggleMap(!mapOpen);}if(e.code==='Escape'&&mapOpen)toggleMap(false);});
+ listen(document,'keydown',event=>{const e=event as KeyboardEvent;if(started&&node('settings-panel').hidden&&e.code===bindings.map&&!e.repeat){e.preventDefault();toggleMap(!mapOpen);}if(e.code==='Escape'&&mapOpen)toggleMap(false);});
  const plot=node('world-plot');
  for(const b of BUILDINGS){const dot=document.createElement('i');dot.className='world-building';dot.style.left=((b.x+3000)/60)+'%';dot.style.top=((b.z+2500)/50)+'%';plot.append(dot);}
  DESTINATIONS.forEach((d,index)=>{const button=document.createElement('button');button.textContent=d.name;button.dataset.travel=String(index);node('world-destinations').append(button);listen(button,'click',()=>{port?.postMessage({channel:'outbreak/world',kind:'travel',destination:index});toggleMap(false);});});
@@ -36,10 +74,10 @@ export async function createGuideUi(asset:UiAsset,host:Pick<GameHost,'uiRoot'|'c
   const noise=(at:number,d:number,hz:number,level:number)=>{const buf=ac.createBuffer(1,Math.ceil(ac.sampleRate*d),ac.sampleRate),samples=buf.getChannelData(0);for(let i=0;i<samples.length;i++)samples[i]=Math.random()*2-1;const src=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();src.buffer=buf;f.frequency.setValueAtTime(hz,at);f.frequency.exponentialRampToValueAtTime(650,at+d);g.gain.setValueAtTime(Math.max(.0001,level*volume),at);g.gain.exponentialRampToValueAtTime(.001,at+d);src.connect(f).connect(g).connect(ac.destination);src.start(at);};
   noise(t,tail!,cut!,.48);noise(t+(index===1?.34:.045),.032,4900,.10);
  };
- const settings=(open:boolean)=>{node('settings-panel').hidden=!open;send({kind:'settings',open,bob:(node('bob') as HTMLInputElement).checked});if(open)document.exitPointerLock?.();};
+ const settings=(open:boolean)=>{pendingKey=null;drawKeys();node('settings-panel').hidden=!open;send({kind:'settings',open,bob:(node('bob') as HTMLInputElement).checked});if(open)document.exitPointerLock?.();};
  listen(node('settings-open'),'click',()=>settings(true));listen(node('settings-close'),'click',()=>settings(false));
  listen(node('volume'),'input',()=>{volume=Number((node('volume') as HTMLInputElement).value)/100;text('volume-value',Math.round(volume*100)+'%');savePreferences();});
- listen(node('start'),'click',()=>{started=true;ui.host.classList.add('started');node('home-menu').hidden=true;try{audio??=new AudioContext();void audio.resume();}catch{}send({kind:'start'});mode();});
+ listen(node('start'),'click',()=>{started=true;ui.host.classList.add('started');node('home-menu').hidden=true;try{audio??=new AudioContext();void audio.resume();}catch{}publishKeys();send({kind:'start'});mode();});
 
  let chosenMode='hold',fps='60',quality='smooth';
  const savePreferences=()=>{try{localStorage.setItem('seven-days-menu',JSON.stringify({volume,fps,quality,bob:(node('bob') as HTMLInputElement).checked}));}catch{}};
